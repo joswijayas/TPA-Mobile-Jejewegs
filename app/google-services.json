@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "31969072633",
+    "project_id": "jejewegs",
+    "storage_bucket": "jejewegs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31969072633:android:a30f2d20a417dcf358d928",
+        "android_client_info": {
+          "package_name": "edu.bluejack22_1.Jejewegs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31969072633-tmtv8otf72i0lnsdkprihbsqb2min80j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCropphtfvXw_1SsPZpQKMJnoXGMkujgRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31969072633-tmtv8otf72i0lnsdkprihbsqb2min80j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
