@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_yellow">#FFE085</color>
     <color name="dark_yellow">#FFBE00</color>
+    <color name="default_profile_circle_background">#969696</color>
 </resources>

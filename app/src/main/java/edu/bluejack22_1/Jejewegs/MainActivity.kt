@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import edu.bluejack22_1.Jejewegs.Fragment.ProfileFragment
 import edu.bluejack22_1.Jejewegs.databinding.ActivityMainBinding
 import javax.annotation.meta.When
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> replaceFragment(Home())
                 R.id.add -> replaceFragment(Add())
-                R.id.profile -> replaceFragment(Profile())
+                R.id.profile -> replaceFragment(ProfileFragment())
                 else -> {
 
                 }
