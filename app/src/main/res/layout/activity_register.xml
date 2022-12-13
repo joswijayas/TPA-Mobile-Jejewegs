@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    android:background="@color/light_yellow"
     android:padding="30dp"
     tools:context=".LoginActivity">
 
@@ -26,9 +26,9 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center"
           android:backgroundTint="@color/black"
-          android:text="Register"
+          android:text="@string/register"
           android:textAlignment="center"
-          android:textColor="@color/teal_700"
+          android:textColor="@color/dark_yellow"
           android:textSize="24sp"
           android:textStyle="bold" />
 
@@ -36,14 +36,14 @@
           android:id="@+id/edt_email_register"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:hint="Email"
+          android:hint="@string/email"
           android:inputType="textEmailAddress" />
 
       <EditText
           android:id="@+id/edt_password_register"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:hint="Password"
+          android:hint="@string/password"
           android:inputType="textPassword" />
 
       <Button
@@ -51,15 +51,16 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
-          android:backgroundTint="@color/teal_700"
-          android:text="Register" />
+          android:backgroundTint="@color/dark_yellow"
+          android:text="@string/register"
+          android:textStyle="bold"/>
 
       <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="30dp"
           android:backgroundTint="@color/black"
-          android:text="Already Have Account?"
+          android:text="@string/already_have_account"
           android:textAlignment="center" />
 
       <TextView
@@ -67,9 +68,9 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:backgroundTint="@color/black"
-          android:text="Login"
+          android:text="@string/login"
           android:textAlignment="center"
-          android:textColor="@color/teal_700"
+          android:textColor="@color/dark_yellow"
           android:textStyle="bold" />
 
     </LinearLayout>
