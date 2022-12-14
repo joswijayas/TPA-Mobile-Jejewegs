@@ -40,6 +40,14 @@
     <string name="profile">Profile</string>
     <string name="hello_home">hello home</string>
     <string name="hello_profile">hello profile</string>
+    <string name="followings">Followings</string>
+    <string name="followers">Followers</string>
+    <string name="reviews">Reviews</string>
+    <string name="full_name">Full Name</string>
+    <string name="location">Location</string>
+    <string name="favorite_sneaker">Favorite Sneaker</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
 
 
 </resources>

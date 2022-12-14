@@ -22,6 +22,7 @@
     <string name="title_activity_login">Masuk</string>
     <string name="register">Daftar</string>
     <string name="already_have_account">Sudah punya akun?</string>
+    
     <string name="create_review">Buat Review</string>
     <string name="tag_prompt">Pilih merek</string>
     <string name="review_description">Tulis deskripsi</string>
@@ -33,4 +34,15 @@
     <string name="profile">profil</string>
     <string name="hello_home">halo beranda</string>
     <string name="hello_profile">halo profil</string>
+    <!-- <string name="create_review">Buat Tinjauan</string>
+    <string name="tag_prompt">Pilih sebuah merek</string>
+    <string name="review_description">Deskripsi Tinjauan</string>
+    <string name="rate_min_1_max_5">Nilai (Min 1, Max 5)</string>
+    <string name="create_post">Buat Post</string> -->
+    <string name="followings">Mengikuti</string>
+    <string name="followers">Pengikut</string>
+    <string name="reviews">Tinjauan</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="location">Lokasi</string>
+    <string name="favorite_sneaker">Sneaker Favorit</string>
 </resources>
