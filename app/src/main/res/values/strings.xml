@@ -40,6 +40,8 @@
     <string name="full_name">Full Name</string>
     <string name="location">Location</string>
     <string name="favorite_sneaker">Favorite Sneaker</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
 
 
 </resources>
