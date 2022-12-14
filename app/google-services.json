@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "31969072633-keqn7qviic9ft8padu8a9ver36elq251.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.bluejack22_1.Jejewegs",
+            "certificate_hash": "60e85ad9fd9c903a54cff8d7031e94377b12c169"
+          }
+        },
+        {
           "client_id": "31969072633-tmtv8otf72i0lnsdkprihbsqb2min80j.apps.googleusercontent.com",
           "client_type": 3
         }
