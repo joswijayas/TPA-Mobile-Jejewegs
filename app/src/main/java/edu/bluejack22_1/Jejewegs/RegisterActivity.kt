@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import edu.bluejack22_1.Jejewegs.Model.User
 import edu.bluejack22_1.Jejewegs.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -57,18 +58,22 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){
                     task->
                     if(task.isSuccessful){
-
-                        val id = auth.currentUser?.uid
-                        Log.d("IDdd", id.toString())
+                        val newUserData = User()
+                        newUserData.user_id = auth.currentUser?.uid
+                        newUserData.user_email = email
+                        Log.d("IDdd", newUserData.user_id.toString())
                         val data = hashMapOf(
-                            "user_id" to id,
-                            "user_email" to email,
-                            "user_fullname" to "",
-                            "user_fav_sneaker" to "",
-                            "user_location" to ""
+                            "user_id" to newUserData.user_id,
+                            "user_email" to newUserData.user_email,
+                            "user_fullname" to newUserData.user_fullname,
+                            "user_fav_sneaker" to newUserData.user_fav_sneaker,
+                            "user_location" to newUserData.user_location,
+                            "user_followers" to newUserData.user_followers,
+                            "user_following" to newUserData.user_followings,
+                            "user_reviews" to newUserData.user_reviews
                         )
                         Log.d("data_user", data.toString())
-                        db.collection("users").document(id.toString())
+                        db.collection("users").document(newUserData.user_id.toString())
                             .set(data)
                             .addOnSuccessListener { documentReference ->
                                 Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
