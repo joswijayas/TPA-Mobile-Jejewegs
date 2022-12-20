@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -162,10 +163,14 @@ class CreateReview : Fragment() {
                     "review_rate" to reviewRate,
                     "review_likes" to emptyArr,
                     "review_comments" to emptyArr
-
                 )
 
-                FirebaseFirestore.getInstance().collection("reviews").add(review).addOnSuccessListener {
+                FirebaseFirestore.getInstance().collection("reviews").add(review).addOnSuccessListener { docRef ->
+                    val userId = FirebaseAuth.getInstance().currentUser!!.uid
+                    Log.d("docRef", docRef.id)
+                    val db = FirebaseFirestore.getInstance()
+                    val userRef = db.collection("users").document(userId)
+                    userRef.update("user_reviews", FieldValue.arrayUnion(docRef.id))
                     Toast.makeText(context , "Successful create review" , Toast.LENGTH_SHORT).show()
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)

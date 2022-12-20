@@ -5,6 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
+import edu.bluejack22_1.Jejewegs.Model.Review
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +28,10 @@ class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var reviewList: ArrayList<Review>
+    private var db = Firebase.firestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +47,30 @@ class Home : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.recycleView)
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager=layoutManager
+        reviewList = arrayListOf()
+        db = FirebaseFirestore.getInstance()
+        db.collection("reviews").addSnapshotListener{ it, err ->
+            if (it != null) {
+                if(!it.isEmpty){
+                    reviewList.clear()
+                    for(data in it.documents){
+                        val review:Review? = data.toObject(Review::class.java)
+                        if (review != null) {
+                            reviewList.add(review)
+                        }
+                    }
+                    recyclerView.adapter = ReviewAdapter(reviewList)
+                }
+            }
+        }
+
     }
 
     companion object {
