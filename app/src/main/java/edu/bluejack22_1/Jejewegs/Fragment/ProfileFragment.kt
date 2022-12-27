@@ -1,14 +1,19 @@
 package edu.bluejack22_1.Jejewegs.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import edu.bluejack22_1.Jejewegs.LoginActivity
 import edu.bluejack22_1.Jejewegs.Model.User
 import edu.bluejack22_1.Jejewegs.R
 import edu.bluejack22_1.Jejewegs.databinding.FragmentProfileBinding
@@ -35,6 +40,7 @@ class ProfileFragment : Fragment() {
         fetchUser()
         editBtnListener()
 
+
         return binding.root
     }
 
@@ -49,7 +55,7 @@ class ProfileFragment : Fragment() {
                 val location = it.data?.get("user_location")?.toString()
                 val favoriteSneaker = it.data?.get("user_fav_sneaker")?.toString()
                 val followers = it.data?.get("user_followers") as? List<*>
-                val followings = it.data?.get("user_followings") as? List<*>
+                val followings = it.data?.get("user_following") as? List<*>
                 val reviews = it.data?.get("user_reviews") as? List<*>
 
                 binding.followersCount.text = (followers)?.size.toString()
@@ -77,15 +83,15 @@ class ProfileFragment : Fragment() {
                 isEdit = false;
             } else {
                 if(binding.etFullName.text.toString().isEmpty()){
-                    binding.etFullName.error = "Full Name must be filled"
+                    binding.etFullName.error = getString(R.string.fullname_must_filled)
                     binding.etFullName.requestFocus()
                 }
                 else if(binding.etLocation.text.toString().isEmpty()){
-                    binding.etLocation.error = "Location must be filled"
+                    binding.etLocation.error = getString(R.string.location_must_filled)
                     binding.etLocation.requestFocus()
                 }
                 else if(binding.etFavoriteSneaker.text.toString().isEmpty()){
-                    binding.etFavoriteSneaker.error = "Favorite Sneaker must be filled"
+                    binding.etFavoriteSneaker.error = getString(R.string.favoritesneaker_must_filled)
                     binding.etFavoriteSneaker.requestFocus()
                 }
                 else{

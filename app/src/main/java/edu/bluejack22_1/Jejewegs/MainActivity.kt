@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -14,6 +15,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Fragment.CreateReview
 import edu.bluejack22_1.Jejewegs.Fragment.ProfileFragment
+import edu.bluejack22_1.Jejewegs.Fragment.ProfileSettingFragment
+import edu.bluejack22_1.Jejewegs.Fragment.WishlistFragment
 import edu.bluejack22_1.Jejewegs.databinding.ActivityMainBinding
 import javax.annotation.meta.When
 
@@ -30,7 +33,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> replaceFragment(Home())
                 R.id.add -> replaceFragment(CreateReview())
-                R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.profile -> replaceFragment(ProfileSettingFragment())
+                R.id.wishlist -> replaceFragment(WishlistFragment())
                 else -> {
 
                 }

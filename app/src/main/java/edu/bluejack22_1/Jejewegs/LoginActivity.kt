@@ -61,17 +61,17 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.edtEmailLogin.text.toString()
             val password = binding.edtPasswordLogin.text.toString()
             if (email.isEmpty()) {
-                binding.edtEmailLogin.error = "Email must be filled"
+                binding.edtEmailLogin.error = getString(R.string.email_must_filled)
                 binding.edtEmailLogin.requestFocus()
                 return@setOnClickListener
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.edtEmailLogin.error = "Email format wrong"
+                binding.edtEmailLogin.error = getString(R.string.email_format_wrong)
                 binding.edtEmailLogin.requestFocus()
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
-                binding.edtPasswordLogin.error = "Password must be filled"
+                binding.edtPasswordLogin.error = getString(R.string.password_must_filled)
                 binding.edtPasswordLogin.requestFocus()
                 return@setOnClickListener
             }
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }else{
-                        Toast.makeText(this , "INVALID CREDENTIAL" , Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this , getString(R.string.invalid_credential) , Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -127,12 +127,59 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(ContentValues.TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     updateUI()
+                    if (user != null) {
+                        Log.d("gmail", user.uid)
+                        val docRef = db.collection("users").document(user.uid.toString())
+                        Log.d("docRef", docRef.toString())
+                        docRef.get().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val document = task.result
+                                Log.d("document", document.toString())
+                                Log.d("isexist", document.exists().toString())
+                                if(document != null) {
+                                    if (document.exists()) {
+                                        Log.d("TAG", "Document already exists.")
+                                    } else {
+                                        Log.d("masukss", user.uid.toString())
+                                        val newUserData = edu.bluejack22_1.Jejewegs.Model.User()
+                                        val data = hashMapOf(
+                                            "user_id" to user.uid.toString(),
+                                            "user_email" to user.email.toString(),
+                                            "user_fullname" to newUserData.user_fullname,
+                                            "user_fav_sneaker" to newUserData.user_fav_sneaker,
+                                            "user_location" to newUserData.user_location,
+                                            "user_followers" to newUserData.user_followers,
+                                            "user_following" to newUserData.user_followings,
+                                            "user_reviews" to newUserData.user_reviews
+                                        )
+                                          Log.d("data_user", data.toString())
+                                        db.collection("users").document(user.uid.toString())
+                                            .set(data)
+                                            .addOnSuccessListener { documentReference ->
+                                                Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
+
+                                                updateUI();
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.d("asdfgh", e.toString())
+                                                Toast.makeText(this , e.toString() , Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
+                                }
+                            } else {
+                                Log.d("TAG", "Error: ", task.exception)
+                            }
+                        }
+
+                    }
+                    updateUI()
                 }
                 else{
-                    Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.makeText(baseContext, getString(R.string.authentication_failed),
                         Toast.LENGTH_SHORT).show()
                     updateUI()
                 }
+
         }
     }
 

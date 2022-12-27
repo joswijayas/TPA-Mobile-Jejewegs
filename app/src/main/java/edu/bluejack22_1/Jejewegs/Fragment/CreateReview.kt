@@ -24,6 +24,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import edu.bluejack22_1.Jejewegs.LoginActivity
 import edu.bluejack22_1.Jejewegs.MainActivity
+import edu.bluejack22_1.Jejewegs.Model.Review
+import edu.bluejack22_1.Jejewegs.R
 import edu.bluejack22_1.Jejewegs.databinding.FragmentCreateReviewBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -95,14 +97,14 @@ class CreateReview : Fragment() {
             if(reviewTitle.isEmpty() || reviewDescripion.isEmpty()){
                 Log.d("validasi create review", "Masuk")
 
-                Toast.makeText(context , "All field must be filled" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , getString(R.string.allfield_must_filled) , Toast.LENGTH_SHORT).show()
             }
             else if(!intRate.equals("1") && !intRate.equals("2") && !intRate.equals("3") && !intRate.equals("4") && !intRate.equals("5")){
                 Log.d("validasi create review", "Masuk222")
-                Toast.makeText(context , "Rate must between 1 and 5" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , getString(R.string.rate_boundaries) , Toast.LENGTH_SHORT).show()
             }
             else if(removeButton.visibility == View.GONE){
-                Toast.makeText(context , "Must add picture" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , getString(R.string.must_add_picture) , Toast.LENGTH_SHORT).show()
             }
             else{
                 context?.let {
@@ -136,7 +138,7 @@ class CreateReview : Fragment() {
         reviewRate: String
     ) {
         val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Uploading Image...")
+        progressDialog.setMessage(getString(R.string.progressCreateMessage))
         progressDialog.setCancelable(false)
         progressDialog.show()
 
@@ -151,18 +153,23 @@ class CreateReview : Fragment() {
             taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                 uriImg->
                 imgUri = uriImg.toString()
-                Log.d("imageeee", imgUri)
-
-                val emptyArr : List<Int> = emptyList()
+//                Log.d("imageeee", imgUri)
+                val newReview = Review()
+                newReview.review_image = imgUri
+                newReview.reviewer_id = userId
+                newReview.reviewer_title = reviewTitle
+                newReview.review_brand = reviewBrand
+                newReview.review_description = reviewDescripion
+                newReview.review_rate = reviewRate
                 val review = hashMapOf(
-                    "reviewer_id" to userId,
-                    "reviewer_title" to reviewTitle,
-                    "review_brand" to reviewBrand,
-                    "review_image" to imgUri,
-                    "review_description" to reviewDescripion,
-                    "review_rate" to reviewRate,
-                    "review_likes" to emptyArr,
-                    "review_comments" to emptyArr
+                    "reviewer_id" to newReview.reviewer_id,
+                    "reviewer_title" to newReview.reviewer_title,
+                    "review_brand" to newReview.review_brand,
+                    "review_image" to newReview.review_image,
+                    "review_description" to newReview.review_description,
+                    "review_rate" to newReview.review_rate,
+                    "review_likes" to newReview.review_likes,
+                    "review_comments" to newReview.review_comments
                 )
 
                 FirebaseFirestore.getInstance().collection("reviews").add(review).addOnSuccessListener { docRef ->
@@ -171,7 +178,7 @@ class CreateReview : Fragment() {
                     val db = FirebaseFirestore.getInstance()
                     val userRef = db.collection("users").document(userId)
                     userRef.update("user_reviews", FieldValue.arrayUnion(docRef.id))
-                    Toast.makeText(context , "Successful create review" , Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context , getString(R.string.create_review_sucess) , Toast.LENGTH_SHORT).show()
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                 }

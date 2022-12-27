@@ -49,7 +49,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/followers_count"
+                    android:id="@+id/followings_count"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:textAlignment="center" />
@@ -75,7 +75,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/followings_count"
+                    android:id="@+id/followers_count"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:textAlignment="center"/>
@@ -194,6 +194,8 @@
             android:maxLines="1"
             android:lines="1"
             android:singleLine="true"/>
+
+
 
     </LinearLayout>
 

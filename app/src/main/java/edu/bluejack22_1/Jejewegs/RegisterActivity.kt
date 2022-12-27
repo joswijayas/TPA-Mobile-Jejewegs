@@ -34,22 +34,22 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.edtEmailRegister.text.toString()
             val password = binding.edtPasswordRegister.text.toString()
             if (email.isEmpty()){
-                binding.edtEmailRegister.error = "Email must be filled"
+                binding.edtEmailRegister.error = getString(R.string.email_must_filled)
                 binding.edtEmailRegister.requestFocus()
                 return@setOnClickListener
             }
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                binding.edtEmailRegister.error = "Email format wrong"
+                binding.edtEmailRegister.error = getString(R.string.email_format_wrong)
                 binding.edtEmailRegister.requestFocus()
                 return@setOnClickListener
             }
             if(password.isEmpty()){
-                binding.edtPasswordRegister.error = "Password must be filled"
+                binding.edtPasswordRegister.error = getString(R.string.password_must_filled)
                 binding.edtPasswordRegister.requestFocus()
                 return@setOnClickListener
             }
             if(password.length < 5 || password.length> 20){
-                binding.edtPasswordRegister.error = "Password must between 5 - 20 characters"
+                binding.edtPasswordRegister.error = getString(R.string.password_minimum_length)
                 binding.edtPasswordRegister.requestFocus()
                 return@setOnClickListener
             }
@@ -70,13 +70,14 @@ class RegisterActivity : AppCompatActivity() {
                             "user_location" to newUserData.user_location,
                             "user_followers" to newUserData.user_followers,
                             "user_following" to newUserData.user_followings,
-                            "user_reviews" to newUserData.user_reviews
+                            "user_reviews" to newUserData.user_reviews,
+                            "user_wishlists" to newUserData.user_wishlists
                         )
                         Log.d("data_user", data.toString())
                         db.collection("users").document(newUserData.user_id.toString())
                             .set(data)
                             .addOnSuccessListener { documentReference ->
-                                Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.register_sucess), Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, LoginActivity::class.java)
                                 startActivity(intent)
                             }

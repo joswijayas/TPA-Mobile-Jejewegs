@@ -1,12 +1,12 @@
 package edu.bluejack22_1.Jejewegs.Model
 
 data class Review(
-    val reviewer_id: String? = null,
-    val review_brand: String? = null,
-    val reviewer_title: String? = null,
-    val review_description: String? = null,
-    val review_image: String? = null,
-    val review_rate: String? = null,
-    val review_likes: List<String>? = null,
-    val review_comments: List<String>? = null
+    var reviewer_id: String? = null,
+    var review_brand: String? = null,
+    var reviewer_title: String? = null,
+    var review_description: String? = null,
+    var review_image: String? = null,
+    var review_rate: String? = null,
+    var review_likes: List<String>? = emptyList(),
+    var review_comments: List<String>? = emptyList()
 )

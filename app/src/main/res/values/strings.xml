@@ -48,6 +48,41 @@
     <string name="favorite_sneaker">Favorite Sneaker</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
-
-
+    <string name="review_title">Review Title:</string>
+    <string name="review_brand">Review Brand:</string>
+    <string name="review_rate">Review Rate:</string>
+    <string name="reviewer_id">Reviewer Id:</string>
+    <string name="review_like_count">Review Like Count:</string>
+    <string name="review_comment_count">Review Comment Count:</string>
+    <string name="fullname_must_filled">Full Name must be filled</string>
+    <string name="location_must_filled">Location must be filled</string>
+    <string name="favoritesneaker_must_filled">Favorite Sneaker must be filled</string>
+    <string name="email_must_filled">Email must be filled</string>
+    <string name="email_format_wrong">Email format wrong</string>
+    <string name="password_must_filled">Password must be filled</string>
+    <string name="invalid_credential">INVALID CREDENTIAL</string>
+    <string name="authentication_failed">Authentication failed.</string>
+    <string name="password_minimum_length">Password must between 6 - 20 characters</string>
+    <string name="register_sucess">Register Successful</string>
+    <string name="allfield_must_filled">All field must be filled</string>
+    <string name="rate_boundaries">Rate must between 1 and 5</string>
+    <string name="must_add_picture">Must add picture</string>
+    <string name="create_review_sucess">Successful create review</string>
+    <string name="progressCreateMessage">Uploading Review</string>
+    <string name="logout">logout</string>
+    <string name="setting">Setting</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="profile_tab">Profile</string>
+    <string name="setting_tab">Setting</string>
+    <string name="verification_account">Verification Account</string>
+    <string name="your_password">Your password</string>
+    <string name="verification">Verification</string>
+    <string name="account_verification">Account Verification</string>
+    <string name="pass_conf_pass">Password and confirm password must be same</string>
+    <string name="success_change_pass">Sucessfully change password</string>
+    <string name="login_again">Please login again</string>
+    <string name="wishlist">Wishlist</string>
 </resources>
