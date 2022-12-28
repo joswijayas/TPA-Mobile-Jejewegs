@@ -7,11 +7,34 @@
     tools:context=".Home">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/review_card"/>
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/topRatedBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/top_rated">
 
+        </Button>
+        <Button
+            android:id="@+id/allRatedBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/all_rated"
+            android:visibility="gone">
+
+        </Button>
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/review_card"/>
+    </LinearLayout>
 </FrameLayout>

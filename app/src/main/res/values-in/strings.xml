@@ -84,4 +84,6 @@
     <string name="success_change_pass">Berhasil ganti password</string>
     <string name="login_again">Silahkan masuk 88kembali</string>
     <string name="wishlist">Ingin</string>
+    <string name="top_rated">Rating tinggi</string>
+    <string name="all_rated">Semua Rating</string>
 </resources>

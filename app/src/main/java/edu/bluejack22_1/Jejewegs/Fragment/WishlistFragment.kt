@@ -31,7 +31,7 @@ class WishlistFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var recyclerView : RecyclerView
-    private lateinit var wishLists: ArrayList<Review>
+    private lateinit var reviewList: ArrayList<Review>
     private lateinit var review_ids: ArrayList<String>
     private var db = Firebase.firestore
 
@@ -54,28 +54,29 @@ class WishlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycleWishlist)
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager=layoutManager
-        wishLists = arrayListOf()
+        reviewList = arrayListOf()
         review_ids = arrayListOf()
         db = FirebaseFirestore.getInstance()
+//
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val docRef = db.collection("users").document(uid)
         docRef.addSnapshotListener{ it, err ->
-            if (it != null && it.exists()) {
-//                if(!it.isEmpty){
-//                    reviewList.clear()
-//                    for(data in it.documents){
-////                        Log.d("data_id", data.id)
-//                        val review:Review? = data.toObject(Review::class.java)
-//                        if (review != null) {
-//                            review_ids.add(data.id)
-//                            reviewList.add(review)
-//                        }
-//                    }
-//                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids)
-//                }
-                val wishlists = it.data?.get("user_wishlists") as? List<*>
+            if (err != null) {
+                return@addSnapshotListener
+            }
+            reviewList.clear()
+            review_ids.clear()
+                val wishlists = it?.data?.get("user_wishlists") as? List<*>
+            if (wishlists != null) {
+                Log.d("size", wishlists.size.toString())
+                if(wishlists?.size == 0){
+                    reviewList.clear()
+                    review_ids.clear()
+                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+                }
+            }
                 if (wishlists != null) {
                     for (x in wishlists){
                         val docRef2 = db.collection("reviews").document(x.toString())
@@ -85,21 +86,24 @@ class WishlistFragment : Fragment() {
                                     val review:Review? = doc.toObject(Review::class.java)
                                     if (review != null) {
                                         Log.d("mana", doc.id)
+                                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
                                         review_ids.add(doc.id)
-                                        wishLists.add(review)
+                                        reviewList.add(review)
                                     }
-                                }else{
-
                                 }
                         }
                     }
-                    Log.d("skkss", "sdsd")
-                    recyclerView.adapter = ReviewAdapter(wishLists, review_ids, "2")
+                }
+                else{
+                    Log.d("mskk", "msk sini")
+                    reviewList.clear()
+                    review_ids.clear()
+                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
                 }
 
             }
-        }
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

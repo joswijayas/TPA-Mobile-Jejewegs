@@ -2,11 +2,12 @@ package edu.bluejack22_1.Jejewegs
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
 import edu.bluejack22_1.Jejewegs.Model.Review
+import edu.bluejack22_1.Jejewegs.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +35,10 @@ class Home : Fragment() {
     private lateinit var reviewList: ArrayList<Review>
     private lateinit var review_ids: ArrayList<String>
     private var db = Firebase.firestore
-
-
+    private var _binding : FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var topRated : Button
+    private lateinit var allRated : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,7 +46,7 @@ class Home : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
+    var containers : ViewGroup? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +57,8 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        topRated = view?.findViewById(R.id.topRatedBtn)
+        allRated = view?.findViewById(R.id.allRatedBtn)
 
         recyclerView = view.findViewById(R.id.recycleView)
         val layoutManager = LinearLayoutManager(context)
@@ -76,6 +82,54 @@ class Home : Fragment() {
                 }
             }
         }
+
+        topRated.setOnClickListener(View.OnClickListener {
+            topRated.visibility = View.GONE
+            allRated.visibility = View.VISIBLE
+            Log.d("pencet", "pencett")
+            reviewList = arrayListOf()
+            review_ids = arrayListOf()
+            db.collection("reviews").whereEqualTo("review_rate", "5").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        for(data in it.documents){
+//                        Log.d("data_id", data.id)
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review_ids.add(data.id)
+                                reviewList.add(review)
+                            }
+                        }
+                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
+                    }
+                }
+            }
+        })
+
+        allRated.setOnClickListener(View.OnClickListener {
+            allRated.visibility = View.GONE
+            topRated.visibility = View.VISIBLE
+            Log.d("pencet", "pencett")
+            reviewList = arrayListOf()
+            review_ids = arrayListOf()
+            db.collection("reviews").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        for(data in it.documents){
+//                        Log.d("data_id", data.id)
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review_ids.add(data.id)
+                                reviewList.add(review)
+                            }
+                        }
+                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
+                    }
+                }
+            }
+        })
 
     }
 

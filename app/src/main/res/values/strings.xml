@@ -85,4 +85,6 @@
     <string name="success_change_pass">Sucessfully change password</string>
     <string name="login_again">Please login again</string>
     <string name="wishlist">Wishlist</string>
+    <string name="top_rated">Top rated</string>
+    <string name="all_rated">All Rated</string>
 </resources>

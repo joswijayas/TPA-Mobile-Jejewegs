@@ -35,6 +35,7 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewHolder {
+        Log.d("dr mana", x)
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.review_card, parent, false)
         return ReviewHolder(itemView)
     }
