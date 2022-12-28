@@ -1,6 +1,7 @@
 package edu.bluejack22_1.Jejewegs
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,7 @@ class Home : Fragment() {
     private var param2: String? = null
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewList: ArrayList<Review>
+    private lateinit var review_ids: ArrayList<String>
     private var db = Firebase.firestore
 
 
@@ -51,22 +53,26 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         recyclerView = view.findViewById(R.id.recycleView)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
         reviewList = arrayListOf()
+        review_ids = arrayListOf()
         db = FirebaseFirestore.getInstance()
         db.collection("reviews").addSnapshotListener{ it, err ->
             if (it != null) {
                 if(!it.isEmpty){
                     reviewList.clear()
                     for(data in it.documents){
+//                        Log.d("data_id", data.id)
                         val review:Review? = data.toObject(Review::class.java)
                         if (review != null) {
+                            review_ids.add(data.id)
                             reviewList.add(review)
                         }
                     }
-                    recyclerView.adapter = ReviewAdapter(reviewList)
+                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
                 }
             }
         }
