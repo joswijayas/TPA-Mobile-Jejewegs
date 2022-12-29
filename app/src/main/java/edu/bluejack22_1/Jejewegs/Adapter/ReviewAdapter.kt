@@ -1,12 +1,15 @@
 package edu.bluejack22_1.Jejewegs.Adapter
 
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -16,10 +19,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Model.Review
 import edu.bluejack22_1.Jejewegs.R
+import edu.bluejack22_1.Jejewegs.ReviewDetailActivity
 import java.lang.reflect.Field
+import kotlin.coroutines.coroutineContext
 
 class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review_id:ArrayList<String>, private val x : String) : RecyclerView.Adapter<ReviewAdapter.ReviewHolder>() {
     private var db = Firebase.firestore
+    var onItemClicked: ((Review) -> Unit)? = null
     class ReviewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
         val reviewer_title : TextView = itemView.findViewById(R.id.tvReviewTitle)
         val review_brand : TextView = itemView.findViewById(R.id.tvReviewBrand)
@@ -32,6 +38,7 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
         val review_wishlists : ImageView = itemView.findViewById(R.id.ivWishlist)
         val review_wishlists_colored : ImageView = itemView.findViewById(R.id.ivWishlistColored)
         var review_id : String = ""
+        val boxId: RelativeLayout = itemView.findViewById(R.id.reviewBox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewHolder {
@@ -75,6 +82,8 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
             }
         }
 
+
+
         holder.review_wishlists.setOnClickListener{
             db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayUnion(holder.review_id))
             holder.review_wishlists.visibility=View.GONE
@@ -85,7 +94,17 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
             holder.review_wishlists.visibility=View.VISIBLE
             holder.review_wishlists_colored.visibility = View.GONE
         }
+        val pos = reviewList[position]
+        holder.itemView.setOnClickListener{
+            Log.d("holder", "view")
+//            val intent = Intent(require().con, ReviewDetailActivity::class.java)
+//            intent.putExtra("dataid", data.id)
+//            startActivity(intent)
+            onItemClicked?.invoke(reviewList[position])
+        }
     }
+
+
 
     override fun getItemCount(): Int {
         return reviewList.size

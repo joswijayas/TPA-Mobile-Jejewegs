@@ -8,6 +8,7 @@
     android:layout_margin="16dp"
     >
     <RelativeLayout
+        android:id="@+id/reviewBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -46,6 +47,34 @@
                 >
 
             </ImageView>
+<!--            <ImageView-->
+<!--                android:id="@+id/ivLike"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_baseline_favorite_border_24"-->
+<!--                android:visibility="visible"-->
+<!--                >-->
+
+<!--            </ImageView>-->
+<!--            <ImageView-->
+<!--                android:id="@+id/ivLikeColored"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_baseline_favorite_24"-->
+<!--                android:visibility="gone"-->
+<!--                >-->
+
+<!--            </ImageView>-->
+<!--            <ImageView-->
+<!--                android:id="@+id/ivComment"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_baseline_comment_24"-->
+<!--                android:visibility="visible"-->
+<!--                >-->
+
+<!--            </ImageView>-->
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"

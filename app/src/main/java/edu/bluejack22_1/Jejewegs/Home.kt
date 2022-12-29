@@ -1,5 +1,6 @@
 package edu.bluejack22_1.Jejewegs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +35,7 @@ class Home : Fragment() {
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewList: ArrayList<Review>
     private lateinit var review_ids: ArrayList<String>
+    private lateinit var adapterReview: ReviewAdapter
     private var db = Firebase.firestore
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -70,15 +72,33 @@ class Home : Fragment() {
             if (it != null) {
                 if(!it.isEmpty){
                     reviewList.clear()
+                    var i = 0
                     for(data in it.documents){
 //                        Log.d("data_id", data.id)
                         val review:Review? = data.toObject(Review::class.java)
                         if (review != null) {
-                            review_ids.add(data.id)
-                            reviewList.add(review)
+                            review.review_id = data.id
                         }
+                        if (review != null) {
+                            Log.d("dataxid", data.id)
+                            review_ids.add(data.id)
+                            Log.d("dataxids", review_ids[i])
+                            reviewList.add(review)
+                            adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                            recyclerView.adapter = adapterReview
+                            adapterReview.onItemClicked = {
+                                Log.d("it", it.reviewer_title.toString())
+                                Log.d("img click","clicked")
+                                val intent = Intent(context, ReviewDetailActivity::class.java)
+                                Log.d("dataid", data.id)
+                                intent.putExtra("dataid", it.review_id)
+
+                                startActivity(intent)
+                            }
+                        }
+                        i++
                     }
-                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
+//                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
                 }
             }
         }
@@ -93,15 +113,31 @@ class Home : Fragment() {
                 if (it != null) {
                     if(!it.isEmpty){
                         reviewList.clear()
+                        var i = 0
                         for(data in it.documents){
 //                        Log.d("data_id", data.id)
                             val review:Review? = data.toObject(Review::class.java)
                             if (review != null) {
-                                review_ids.add(data.id)
-                                reviewList.add(review)
+                                review.review_id = data.id
                             }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
                         }
-                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
                     }
                 }
             }
@@ -117,15 +153,30 @@ class Home : Fragment() {
                 if (it != null) {
                     if(!it.isEmpty){
                         reviewList.clear()
+                        var i = 0
                         for(data in it.documents){
 //                        Log.d("data_id", data.id)
                             val review:Review? = data.toObject(Review::class.java)
                             if (review != null) {
-                                review_ids.add(data.id)
-                                reviewList.add(review)
+                                review.review_id = data.id
                             }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
                         }
-                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
+//                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
+
                     }
                 }
             }

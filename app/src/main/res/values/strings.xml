@@ -87,4 +87,10 @@
     <string name="wishlist">Wishlist</string>
     <string name="top_rated">Top rated</string>
     <string name="all_rated">All Rated</string>
+    <string name="give_rating">Give rating</string>
+    <string name="give_rate">Give</string>
+    <string name="average_rating">Average rating</string>
+    <string name="success_update">Successfully update</string>
+    <string name="change">Change</string>
+
 </resources>
