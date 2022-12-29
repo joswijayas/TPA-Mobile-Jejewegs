@@ -195,8 +195,13 @@
             android:lines="1"
             android:singleLine="true"/>
 
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleReviewList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/review_card"/>
 
     </LinearLayout>
+
 
 </RelativeLayout>

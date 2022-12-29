@@ -7,13 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
 import edu.bluejack22_1.Jejewegs.LoginActivity
+import edu.bluejack22_1.Jejewegs.Model.Review
 import edu.bluejack22_1.Jejewegs.Model.User
 import edu.bluejack22_1.Jejewegs.R
 import edu.bluejack22_1.Jejewegs.databinding.FragmentProfileBinding
@@ -21,7 +26,9 @@ import edu.bluejack22_1.Jejewegs.databinding.FragmentProfileBinding
 class ProfileFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileBinding
-
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var reviewList: ArrayList<Review>
+    private lateinit var review_ids: ArrayList<String>
     private var db = Firebase.firestore
 
     private var isEdit = true;
@@ -44,6 +51,59 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.recycleReviewList)
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager=layoutManager
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        db = FirebaseFirestore.getInstance()
+//
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val docRef = db.collection("users").document(uid)
+        docRef.addSnapshotListener{ it, err ->
+            if (err != null) {
+                return@addSnapshotListener
+            }
+            reviewList.clear()
+            review_ids.clear()
+            val reviewlists = it?.data?.get("user_reviews") as? List<*>
+            if (reviewlists != null) {
+                Log.d("size", reviewlists.size.toString())
+                if(reviewlists?.size == 0){
+                    reviewList.clear()
+                    review_ids.clear()
+                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+                }
+            }
+            if (reviewlists != null) {
+                for (x in reviewlists){
+                    val docRef2 = db.collection("reviews").document(x.toString())
+                    docRef2.get().addOnSuccessListener {
+                            doc ->
+                        if(doc != null){
+                            val review:Review? = doc.toObject(Review::class.java)
+                            if (review != null) {
+                                Log.d("mana", doc.id)
+                                recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+                                review_ids.add(doc.id)
+                                reviewList.add(review)
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                Log.d("mskk", "msk sini")
+                reviewList.clear()
+                review_ids.clear()
+                recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+            }
+
+        }
+    }
+
     private fun fetchUser() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         val ref = db.collection("users").document(userId)
@@ -58,9 +118,22 @@ class ProfileFragment : Fragment() {
                 val followings = it.data?.get("user_following") as? List<*>
                 val reviews = it.data?.get("user_reviews") as? List<*>
 
-                binding.followersCount.text = (followers)?.size.toString()
-                binding.followingsCount.text = (followings)?.size.toString()
-                binding.reviewsCount.text = (reviews)?.size.toString()
+                if(followers == null){
+                    binding.followersCount.text = 0.toString()
+                }else{
+                    binding.followersCount.text = (followers)?.size.toString()
+                }
+                if(followings == null){
+                    binding.followingsCount.text = 0.toString()
+                }else{
+                    binding.followingsCount.text = (followings)?.size.toString()
+                }
+                if(reviews == null){
+                    binding.reviewsCount.text = 0.toString()
+                }else{
+                    binding.reviewsCount.text = (reviews)?.size.toString()
+                }
+
 
                 binding.etFullName.setText(fullName.toString())
                 binding.etEmailProfile.setText(email.toString())
