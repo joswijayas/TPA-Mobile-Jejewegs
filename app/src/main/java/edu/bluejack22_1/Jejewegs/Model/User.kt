@@ -6,6 +6,7 @@ class User {
     var user_fullname:String? = ""
     var user_id:String? = ""
     var user_location:String? = ""
+    var user_image:String? = ""
     var user_followers:List<String>? = emptyList()
     var user_followings:List<String>? = emptyList()
     var user_reviews:List<String>? = emptyList()

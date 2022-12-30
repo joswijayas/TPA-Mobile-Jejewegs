@@ -1,14 +1,20 @@
 package edu.bluejack22_1.Jejewegs.Fragment
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +22,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
 import edu.bluejack22_1.Jejewegs.LoginActivity
 import edu.bluejack22_1.Jejewegs.Model.Review
@@ -29,7 +36,10 @@ class ProfileFragment : Fragment() {
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewList: ArrayList<Review>
     private lateinit var review_ids: ArrayList<String>
+    private lateinit var imagePath: Uri
+    private lateinit var bitmap: Bitmap
     private var db = Firebase.firestore
+    private var storage = FirebaseStorage.getInstance()
 
     private var isEdit = true;
 
@@ -114,9 +124,14 @@ class ProfileFragment : Fragment() {
                 val email = it.data?.get("user_email")?.toString()
                 val location = it.data?.get("user_location")?.toString()
                 val favoriteSneaker = it.data?.get("user_fav_sneaker")?.toString()
+                val image = it.data?.get("user_image")?.toString()
                 val followers = it.data?.get("user_followers") as? List<*>
-                val followings = it.data?.get("user_following") as? List<*>
+                val followings = it.data?.get("user_followings") as? List<*>
                 val reviews = it.data?.get("user_reviews") as? List<*>
+
+                if(image != null && !image.isEmpty()){
+                    Glide.with(binding.profileImage.context).load(image).into(binding.profileImage)
+                }
 
                 if(followers == null){
                     binding.followersCount.text = 0.toString()
@@ -153,6 +168,7 @@ class ProfileFragment : Fragment() {
 //                binding.etEmailProfile.isEnabled = true
                 binding.etLocation.isEnabled = true
                 binding.etFavoriteSneaker.isEnabled = true
+                binding.profileImage.setOnClickListener { addChangeImageListener() }
                 isEdit = false;
             } else {
                 if(binding.etFullName.text.toString().isEmpty()){
@@ -184,10 +200,12 @@ class ProfileFragment : Fragment() {
 
                     ref.get().addOnSuccessListener {
                         if (it != null) {
+                            val image = it.data?.get("user_image")?.toString()
                             val followers = it.data?.get("user_followers") as? List<String>
                             val followings = it.data?.get("user_followings") as? List<String>
                             val reviews = it.data?.get("user_reviews") as? List<String>
 
+                            newUserData.user_image = image
                             newUserData.user_followers = followers
                             newUserData.user_followings = followings
                             newUserData.user_reviews = reviews
@@ -196,7 +214,8 @@ class ProfileFragment : Fragment() {
 
                         ref.set(newUserData).addOnSuccessListener {
                             isEdit = true
-                            fetchUser()
+                            binding.profileImage.setOnClickListener(null)
+//                            fetchUser()
                         }
                     }
 
@@ -206,6 +225,39 @@ class ProfileFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun addChangeImageListener(){
+        var intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        selectImage.launch(intent)
+    }
+
+    private var selectImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == Activity.RESULT_OK && it.data != null) {
+            imagePath = it.data!!.data!!
+            val userId = FirebaseAuth.getInstance().currentUser!!.uid
+            bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, imagePath)
+            binding.profileImage.setImageBitmap(bitmap)
+//            binding.profileImage.visibility = View.INVISIBLE
+//            binding.previewProfileImage.visibility = View.VISIBLE
+//            binding.previewProfileImage.setImageBitmap(bitmap)
+            val storagePath = "profilePicture/$userId"
+            val ref = storage.getReference(storagePath)
+            ref.putFile(imagePath).addOnSuccessListener {
+                storage.reference.child(storagePath).downloadUrl.addOnSuccessListener {
+                    db.collection("users").document(userId).update("user_image", it.toString()).addOnSuccessListener { fetchUser() }
+                    Log.d("test", "success uri")
+                }.addOnFailureListener{
+                    Log.d("test", "error uri")
+                }
+            }
+//            fetchUser()
+//            binding.profileImage.visibility = View.VISIBLE
+//            binding.previewProfileImage.visibility = View.INVISIBLE
+        }
     }
 
 }

@@ -68,6 +68,7 @@ class RegisterActivity : AppCompatActivity() {
                             "user_fullname" to newUserData.user_fullname,
                             "user_fav_sneaker" to newUserData.user_fav_sneaker,
                             "user_location" to newUserData.user_location,
+                            "user_image" to newUserData.user_image,
                             "user_followers" to newUserData.user_followers,
                             "user_following" to newUserData.user_followings,
                             "user_reviews" to newUserData.user_reviews,
