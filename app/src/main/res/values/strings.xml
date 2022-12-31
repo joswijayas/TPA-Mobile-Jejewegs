@@ -92,5 +92,9 @@
     <string name="average_rating">Average rating</string>
     <string name="success_update">Successfully update</string>
     <string name="change">Change</string>
+    <string name="input_your_comment">Input your comment...</string>
+    <string name="review_comment">Review Comment</string>
+    <string name="must_be_filled">Must be filled</string>
+    <string name="create_comment_success">Success create comment</string>
 
 </resources>

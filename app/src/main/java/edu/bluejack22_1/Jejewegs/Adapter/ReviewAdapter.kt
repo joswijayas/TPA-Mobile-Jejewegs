@@ -69,7 +69,6 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
                 val wishlists = it.data?.get("user_wishlists") as? List<*>
                 if (wishlists != null) {
                     for(data in wishlists){
-
                         if(data.toString().equals(holder.review_id)){
                             Log.d("review_id", data.toString())
                             Log.d("review_iddd", review_id[position])
@@ -81,8 +80,6 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
                 }
             }
         }
-
-
 
         holder.review_wishlists.setOnClickListener{
             db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayUnion(holder.review_id))

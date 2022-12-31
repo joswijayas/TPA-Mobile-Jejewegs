@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jejewegs">
         <activity
+            android:name=".CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReviewDetailActivity"
             android:exported="false" />
         <activity

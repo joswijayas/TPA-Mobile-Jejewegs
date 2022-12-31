@@ -91,4 +91,8 @@
     <string name="average_rating">Rerata nilai</string>
     <string name="change">Ubah</string>
     <string name="success_update">Berhasil update</string>
+    <string name="input_your_comment">Masukkan komentar...</string>
+    <string name="review_comment">Komentar Ulasan</string>
+    <string name="must_be_filled">Harus diisi</string>
+    <string name="create_comment_success">Berhasil buat komentar</string>
 </resources>
