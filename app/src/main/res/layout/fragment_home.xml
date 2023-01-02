@@ -27,6 +27,17 @@
             </Button>
 
             <Button
+                android:id="@+id/allRatedBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/all_rated"
+                android:visibility="gone">
+
+            </Button>
+
+            <Button
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,16 +47,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/allRatedBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/all_rated"
-            android:visibility="gone">
-
-        </Button>
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/recycleView"

@@ -52,7 +52,7 @@
             android:textAlignment="center"
             android:textSize="13sp"
             android:gravity="center"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <Button

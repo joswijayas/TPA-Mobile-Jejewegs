@@ -1,5 +1,6 @@
 package edu.bluejack22_1.Jejewegs.Adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Model.User
+import edu.bluejack22_1.Jejewegs.OtherProfileActivity
 import edu.bluejack22_1.Jejewegs.R
 
 class UserAdapter(private val userLists:ArrayList<User>) : RecyclerView.Adapter<UserAdapter.UserHolder>(){
     private var db = Firebase.firestore
-
     class UserHolder(itemView:View): RecyclerView.ViewHolder(itemView){
         val user_image : ImageView = itemView.findViewById(R.id.profile_image)
         val user_fullName : TextView = itemView.findViewById(R.id.tvFullName)
@@ -47,40 +48,51 @@ class UserAdapter(private val userLists:ArrayList<User>) : RecyclerView.Adapter<
         }
 
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        db.collection("users").document(uid).get().addOnSuccessListener {
-            if(it != null){
-                val followings = it.data?.get("user_followings") as? List<*>
-                if(followings != null){
-                    for(x in followings){
-                        if(x.toString().equals(holder.user_id)){
-                            holder.btnFollow.visibility = View.GONE
-                            holder.btnUnfollow.visibility = View.VISIBLE
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        holder.btnFollow.setOnClickListener {
+//        db.collection("users").document(userLists[position].user_id!!).get().addOnSuccessListener {
+//            if(it != null){
+//                val followings = it.data?.get("user_followers") as? List<*>
+//                if(followings != null){
+//                    for(x in followings){
+//                        if(x.toString() == uid){
+//                            Log.d("test", "searched followed")
+//                            holder.btnFollow.visibility = View.GONE
+//                            holder.btnUnfollow.visibility = View.VISIBLE
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        holder.btnFollow.setOnClickListener {
 //            val target = holder.user_id.toString()
-            val target = userLists[position].user_id!!
-            Log.d("test", "uid: $uid")
-            Log.d("test", "target: $target")
-            db.collection("users").document(uid).update("user_followings", FieldValue.arrayUnion(target))
-            db.collection("users").document(target).update("user_followers", FieldValue.arrayUnion(uid))
-            holder.btnFollow.visibility = View.GONE
-            holder.btnUnfollow.visibility = View.VISIBLE
+//            val target = userLists[position].user_id!!
+//            Log.d("test", "uid: $uid")
+//            Log.d("test", "target: $target")
+//            db.collection("users").document(uid).update("user_followings", FieldValue.arrayUnion(target))
+//            db.collection("users").document(target).update("user_followers", FieldValue.arrayUnion(uid))
+//            holder.btnFollow.visibility = View.GONE
+//            holder.btnUnfollow.visibility = View.VISIBLE
+//        }
+//
+//        holder.btnUnfollow.setOnClickListener {
+//            val target = userLists[position].user_id!!
+//            Log.d("test", "uid: $uid")
+//            Log.d("test", "target: $target")
+//            db.collection("users").document(uid).update("user_followings", FieldValue.arrayRemove(target))
+//            db.collection("users").document(target).update("user_followers", FieldValue.arrayRemove(uid))
+//            holder.btnUnfollow.visibility = View.GONE
+//            holder.btnFollow.visibility = View.VISIBLE
+//        }
+
+        holder.itemView.setOnClickListener {
+//            Log.d("test", "clicked user")
+            val context = holder.itemView.context
+            val intent = Intent(context, OtherProfileActivity::class.java)
+            intent.putExtra("currentUid", uid)
+            intent.putExtra("target", userLists[position].user_id)
+            context.startActivity(intent)
         }
 
-        holder.btnUnfollow.setOnClickListener {
-            val target = userLists[position].user_id!!
-            Log.d("test", "uid: $uid")
-            Log.d("test", "target: $target")
-            db.collection("users").document(uid).update("user_followings", FieldValue.arrayRemove(target))
-            db.collection("users").document(target).update("user_followers", FieldValue.arrayRemove(uid))
-            holder.btnUnfollow.visibility = View.GONE
-            holder.btnFollow.visibility = View.VISIBLE
-        }
     }
 
     override fun getItemCount(): Int {
