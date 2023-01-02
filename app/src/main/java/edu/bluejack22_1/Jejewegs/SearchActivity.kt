@@ -139,7 +139,8 @@ class SearchActivity : AppCompatActivity() {
 
     private fun goToHome(){
         binding.btnHome.setOnClickListener {
-            var intent = Intent(this, Home::class.java)
+            var intent = Intent(this, MainActivity::class.java)
+//            onResumeFragments()
             startActivity(intent)
         }
     }

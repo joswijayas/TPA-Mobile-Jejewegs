@@ -30,6 +30,22 @@
         <item>Skechers</item>
         <item>Reebok</item>
     </string-array>
+    <string-array name="choices">
+        <item>All Rated</item>
+        <item>Top Rated</item>
+        <item>Nike</item>
+        <item>Adidas</item>
+        <item>Puma</item>
+        <item>Skechers</item>
+        <item>Reebok</item>
+    </string-array>
+    <string-array name="orders">
+        <item>None</item>
+        <item>Like Asc.</item>
+        <item>Rate Asc.</item>
+        <item>Like Desc.</item>
+        <item>Rate Desc.</item>
+    </string-array>
     <string name="tag_prompt">Choose a brand</string>
     <string name="review_description">Review description</string>
     <string name="rate_min_1_max_5">Rate (Min 1, Max 5)</string>
@@ -85,14 +101,13 @@
     <string name="success_change_pass">Sucessfully change password</string>
     <string name="login_again">Please login again</string>
     <string name="wishlist">Wishlist</string>
-    <string name="top_rated">Top rated</string>
+    <string name="top_rated">Top Rated</string>
     <string name="all_rated">All Rated</string>
     <string name="give_rating">Give rating</string>
     <string name="give_rate">Give</string>
     <string name="average_rating">Average rating</string>
     <string name="success_update">Successfully update</string>
     <string name="change">Change</string>
-<<<<<<< HEAD
     <string name="search_user">Search User</string>
     <string name="search_review">Search Review</string>
     <string name="search">Search</string>
@@ -102,7 +117,6 @@
     <string name="go_to_search">Go to Search</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
-=======
     <string name="input_your_comment">Input your comment...</string>
     <string name="review_comment">Review Comment</string>
     <string name="must_be_filled">Must be filled</string>
@@ -121,6 +135,19 @@
     <string name="notification">Notification</string>
     <string name="notif_liked">" has liked your review "</string>
     <string name="notif_commented">" has commented your review "</string>
->>>>>>> 593fd5e49e20bfdb6e5b23c5fd3c8ccc45e94679
+    <string name="nike" translatable="false">Nike</string>
+    <string name="adidas" translatable="false">Adidas</string>
+    <string name="puma" translatable="false">Puma</string>
+    <string name="skechers" translatable="false">Skechers</string>
+    <string name="reebok" translatable="false">Reebok</string>
+    <string name="none" translatable="false">None</string>
+    <string name="like_asc">Like Asc.</string>
+    <string name="rate_asc">Rate Asc.</string>
+    <string name="like_desc">Like Desc.</string>
+    <string name="rate_desc">Rate Desc.</string>
+    <string name="like" translatable="false">review_likes</string>
+    <string name="rate" translatable="false">review_rate</string>
+    <string name="asc" translatable="false">asc</string>
+    <string name="desc" translatable="false">desc</string>
 
 </resources>

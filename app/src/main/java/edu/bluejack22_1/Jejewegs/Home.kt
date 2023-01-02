@@ -6,12 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
@@ -39,9 +40,12 @@ class Home : Fragment() {
     private var db = Firebase.firestore
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var topRated : Button
-    private lateinit var allRated : Button
-    private lateinit var searchBtn : Button
+    private lateinit var choicesSpinner: Spinner
+    private lateinit var choices: String
+    private lateinit var ordersSpinner: Spinner
+    private lateinit var ordersCategory: String
+    private lateinit var ordersType: String
+    private lateinit var searchBtn : ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -60,11 +64,22 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        topRated = view?.findViewById(R.id.topRatedBtn)
-        allRated = view?.findViewById(R.id.allRatedBtn)
-        searchBtn = view?.findViewById(R.id.btnSearch)
 
-        recyclerView = view.findViewById(R.id.recycleView)
+        setInitValues()
+        setRecyclerView()
+        setReviewListener()
+        setOrderListener()
+        goToSearch()
+    }
+
+    private fun setInitValues(){
+        choices = ""
+        ordersCategory = ""
+        ordersType = ""
+    }
+
+    private fun setRecyclerView(){
+        recyclerView = requireView().findViewById(R.id.recycleView)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
         reviewList = arrayListOf()
@@ -76,7 +91,6 @@ class Home : Fragment() {
                     reviewList.clear()
                     var i = 0
                     for(data in it.documents){
-//                        Log.d("data_id", data.id)
                         val review:Review? = data.toObject(Review::class.java)
                         if (review != null) {
                             review.review_id = data.id
@@ -100,24 +114,129 @@ class Home : Fragment() {
                         }
                         i++
                     }
-//                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
                 }
             }
         }
+    }
 
-        topRated.setOnClickListener(View.OnClickListener {
-            topRated.visibility = View.GONE
-            allRated.visibility = View.VISIBLE
-            Log.d("pencet", "pencett")
-            reviewList = arrayListOf()
-            review_ids = arrayListOf()
-            db.collection("reviews").whereEqualTo("review_rate", "5").addSnapshotListener{ it, err ->
+    private fun setReviewListener(){
+        choicesSpinner = requireView().findViewById(R.id.spinner_choices)
+        val choicesArray = resources.getStringArray(R.array.choices)
+        val choicesAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, choicesArray)
+        choicesSpinner.adapter = choicesAdapter
+        choicesSpinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(choicesArray[p2].equals(getString(R.string.all_rated))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.all_rated)
+                    allRatedListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.top_rated))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.top_rated)
+                    topRatedListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.nike))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.nike)
+                    nikeListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.adidas))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.adidas)
+                    adidasListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.puma))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.puma)
+                    pumaListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.skechers))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.skechers)
+                    skechersListener(ordersCategory, ordersType)
+                }
+                else if(choicesArray[p2].equals(getString(R.string.reebok))){
+//                    Log.d("test", "choice: ${choicesArray[p2]}")
+                    choices = getString(R.string.reebok)
+                    reebokListener(ordersCategory, ordersType)
+                }
+
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private fun setOrderListener(){
+        ordersSpinner = requireView().findViewById(R.id.spinner_order)
+        val ordersArray = resources.getStringArray(R.array.orders)
+        val ordersAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ordersArray)
+        ordersSpinner.adapter = ordersAdapter
+        ordersSpinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(ordersArray[p2].equals(getString(R.string.none))){
+                    ordersCategory = getString(R.string.none)
+                }
+                else if(ordersArray[p2].equals(getString(R.string.like_asc))){
+                    ordersCategory = getString(R.string.like)
+                    ordersType = getString(R.string.asc)
+                }
+                else if(ordersArray[p2].equals(getString(R.string.rate_asc))){
+                    ordersCategory = getString(R.string.rate)
+                    ordersType = getString(R.string.asc)
+                }
+                else if(ordersArray[p2].equals(getString(R.string.like_desc))){
+                    ordersCategory = getString(R.string.like)
+                    ordersType = getString(R.string.desc)
+                }
+                else if(ordersArray[p2].equals(getString(R.string.rate_desc))){
+                    ordersCategory = getString(R.string.rate)
+                    ordersType = getString(R.string.desc)
+                }
+                if(choices.equals(getString(R.string.all_rated))){
+                    allRatedListener(ordersCategory, ordersType)
+                }
+                else if(choices.equals(getString(R.string.top_rated))){
+                    topRatedListener(ordersCategory, ordersType)
+                }
+                else if(choices.equals(getString(R.string.nike))){
+                    nikeListener(ordersCategory, ordersType)
+                }
+                else if (choices.equals(getString(R.string.adidas))){
+                    adidasListener(ordersCategory, ordersType)
+                }
+                else if(choices.equals(getString(R.string.puma))){
+                    pumaListener(ordersCategory, ordersType)
+                }
+                else if(choices.equals(getString(R.string.skechers))){
+                    skechersListener(ordersCategory, ordersType)
+                }
+                else if(choices.equals(getString(R.string.reebok))){
+                    reebokListener(ordersCategory, ordersType)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
+    }
+
+    private fun topRatedListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereGreaterThanOrEqualTo("review_rate", "4").addSnapshotListener{ it, err ->
                 if (it != null) {
                     if(!it.isEmpty){
                         reviewList.clear()
+                        review_ids.clear()
                         var i = 0
                         for(data in it.documents){
-//                        Log.d("data_id", data.id)
                             val review:Review? = data.toObject(Review::class.java)
                             if (review != null) {
                                 review.review_id = data.id
@@ -143,21 +262,93 @@ class Home : Fragment() {
                     }
                 }
             }
-        })
+        }
+        else {
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereGreaterThanOrEqualTo("review_rate", "4").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereGreaterThanOrEqualTo("review_rate", "4").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-        allRated.setOnClickListener(View.OnClickListener {
-            allRated.visibility = View.GONE
-            topRated.visibility = View.VISIBLE
-            Log.d("pencet", "pencett")
-            reviewList = arrayListOf()
-            review_ids = arrayListOf()
-            db.collection("reviews").addSnapshotListener{ it, err ->
+    private fun allRatedListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.addSnapshotListener{ it, err ->
                 if (it != null) {
                     if(!it.isEmpty){
                         reviewList.clear()
+                        review_ids.clear()
                         var i = 0
                         for(data in it.documents){
-//                        Log.d("data_id", data.id)
                             val review:Review? = data.toObject(Review::class.java)
                             if (review != null) {
                                 review.review_id = data.id
@@ -177,18 +368,644 @@ class Home : Fragment() {
                             }
                             i++
                         }
-//                        recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "1")
 
                     }
                 }
             }
-        })
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
 
-        goToSearch()
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun nikeListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereEqualTo("review_brand", "Nike").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        review_ids.clear()
+                        var i = 0
+                        for(data in it.documents){
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review.review_id = data.id
+                            }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereEqualTo("review_brand", "Nike").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereEqualTo("review_brand", "Nike").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
+    private fun adidasListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereEqualTo("review_brand", "Adidas").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        review_ids.clear()
+                        var i = 0
+                        for(data in it.documents){
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review.review_id = data.id
+                            }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereEqualTo("review_brand", "Adidas").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereEqualTo("review_brand", "Adidas").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun pumaListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereEqualTo("review_brand", "Puma").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        review_ids.clear()
+                        var i = 0
+                        for(data in it.documents){
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review.review_id = data.id
+                            }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereEqualTo("review_brand", "Puma").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereEqualTo("review_brand", "Puma").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun skechersListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereEqualTo("review_brand", "Skechers").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        review_ids.clear()
+                        var i = 0
+                        for(data in it.documents){
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review.review_id = data.id
+                            }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereEqualTo("review_brand", "Skechers").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereEqualTo("review_brand", "Skechers").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun reebokListener(orderCategory: String, orderType: String){
+        reviewList = arrayListOf()
+        review_ids = arrayListOf()
+        if(orderCategory.equals(getString(R.string.none))){
+            val ref = db.collection("reviews")
+            ref.whereEqualTo("review_brand", "Reebok").addSnapshotListener{ it, err ->
+                if (it != null) {
+                    if(!it.isEmpty){
+                        reviewList.clear()
+                        review_ids.clear()
+                        var i = 0
+                        for(data in it.documents){
+                            val review:Review? = data.toObject(Review::class.java)
+                            if (review != null) {
+                                review.review_id = data.id
+                            }
+                            if (review != null) {
+                                Log.d("dataxid", data.id)
+                                review_ids.add(data.id)
+                                Log.d("dataxids", review_ids[i])
+                                reviewList.add(review)
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                recyclerView.adapter = adapterReview
+                                adapterReview.onItemClicked = {
+                                    Log.d("it", it.reviewer_title.toString())
+                                    Log.d("img click","clicked")
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    Log.d("dataid", data.id)
+                                    intent.putExtra("dataid", it.review_id)
+                                    startActivity(intent)
+                                }
+                            }
+                            i++
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(orderType == "asc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.ASCENDING)
+                ref.whereEqualTo("review_brand", "Reebok").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+            else if(orderType == "desc"){
+                val ref = db.collection("reviews").orderBy(orderCategory, Query.Direction.DESCENDING)
+                ref.whereEqualTo("review_brand", "Reebok").addSnapshotListener{ it, err ->
+                    if (it != null) {
+                        if(!it.isEmpty){
+                            reviewList.clear()
+                            review_ids.clear()
+                            var i = 0
+                            for(data in it.documents){
+                                val review:Review? = data.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = data.id
+                                }
+                                if (review != null) {
+                                    Log.d("dataxid", data.id)
+                                    review_ids.add(data.id)
+                                    Log.d("dataxids", review_ids[i])
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
+                                    adapterReview.onItemClicked = {
+                                        Log.d("it", it.reviewer_title.toString())
+                                        Log.d("img click","clicked")
+                                        val intent = Intent(context, ReviewDetailActivity::class.java)
+                                        Log.d("dataid", data.id)
+                                        intent.putExtra("dataid", it.review_id)
+                                        startActivity(intent)
+                                    }
+                                }
+                                i++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun goToSearch(){
+        searchBtn = requireView().findViewById(R.id.btnSearch)
         searchBtn.setOnClickListener {
             val intent = Intent(this.context, SearchActivity::class.java)
             startActivity(intent)
