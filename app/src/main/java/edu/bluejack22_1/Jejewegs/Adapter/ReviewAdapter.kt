@@ -82,12 +82,16 @@ class ReviewAdapter(private val reviewList:ArrayList<Review>, private val review
         }
 
         holder.review_wishlists.setOnClickListener{
-            db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayUnion(holder.review_id))
+            db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayUnion(holder.review_id)).addOnSuccessListener {
+                notifyDataSetChanged()
+            }
             holder.review_wishlists.visibility=View.GONE
             holder.review_wishlists_colored.visibility = View.VISIBLE
         }
         holder.review_wishlists_colored.setOnClickListener{
-            db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayRemove(holder.review_id))
+            db.collection("users").document(uid).update("user_wishlists", FieldValue.arrayRemove(holder.review_id)).addOnSuccessListener {
+                notifyDataSetChanged()
+            }
             holder.review_wishlists.visibility=View.VISIBLE
             holder.review_wishlists_colored.visibility = View.GONE
         }

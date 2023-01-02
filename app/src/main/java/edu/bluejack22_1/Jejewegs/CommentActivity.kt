@@ -39,6 +39,12 @@ class CommentActivity : AppCompatActivity() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
         var docRef = db.collection("reviews").document(reviewId)
+        var reviewTitle = ""
+        var reviewer_id = ""
+        docRef.get().addOnSuccessListener {
+            reviewTitle = it.get("reviewer_title").toString()
+            reviewer_id = it.get("reviewer_id").toString()
+        }
         recyclerView = binding.recycleComment
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager=layoutManager
@@ -75,6 +81,15 @@ class CommentActivity : AppCompatActivity() {
                     }
                     Toast.makeText(this , getString(R.string.create_comment_success) , Toast.LENGTH_SHORT).show()
                     binding.etInputComment.setText("")
+                }.addOnSuccessListener {
+                    Log.d("reviewer_id", reviewer_id)
+                    Log.d("uiddddd", uid)
+                    if(reviewer_id != uid){
+                        db.collection("users").document(uid).get().addOnSuccessListener {
+                            var name = it.get("user_fullname").toString()
+                            db.collection("users").document(reviewer_id).update("user_notifications", FieldValue.arrayUnion(name + " notif_commented," + reviewTitle))
+                        }
+                    }
                 }
             }
         }

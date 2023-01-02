@@ -13,7 +13,12 @@
         android:icon="@drawable/ic_baseline_bookmark_border_24"
         android:title="@string/wishlist" />
     <item
+        android:id="@+id/reviewInTouch"
+        android:icon="@drawable/ic_baseline_touch_app_24"
+        android:title="@string/interaction" />
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/profile" />
+
 </menu>

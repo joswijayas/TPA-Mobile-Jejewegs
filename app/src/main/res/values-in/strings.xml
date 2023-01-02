@@ -95,4 +95,18 @@
     <string name="review_comment">Komentar Ulasan</string>
     <string name="must_be_filled">Harus diisi</string>
     <string name="create_comment_success">Berhasil buat komentar</string>
+    <string name="interaction">Interaksi</string>
+    <string name="liked">Yang disukai</string>
+    <string name="commented">Yang dikomentari</string>
+    <string name="create_review_reminder">Pengingat Buat Review</string>
+    <string name="input_reminder_message">Masukkan pesan pengingat</string>
+    <string name="create_reminder">Buat pengingat</string>
+    <string name="reminder_for_create_review">Pengingat untuk Buat Ulasan</string>
+    <string name="title_">Judul:</string>
+    <string name="message_">Pesan:</string>
+    <string name="at_">Saat:</string>
+    <string name="your_notification">Notifikasi Kamu</string>
+    <string name="notification">Notifikasi</string>
+    <string name="notif_liked">" menyukai ulasan anda "</string>
+    <string name="notif_commented">" mengomentari ulasan anda "</string>
 </resources>
