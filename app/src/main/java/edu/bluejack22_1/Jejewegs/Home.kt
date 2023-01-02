@@ -41,6 +41,7 @@ class Home : Fragment() {
     private val binding get() = _binding!!
     private lateinit var topRated : Button
     private lateinit var allRated : Button
+    private lateinit var searchBtn : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -61,6 +62,7 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         topRated = view?.findViewById(R.id.topRatedBtn)
         allRated = view?.findViewById(R.id.allRatedBtn)
+        searchBtn = view?.findViewById(R.id.btnSearch)
 
         recyclerView = view.findViewById(R.id.recycleView)
         val layoutManager = LinearLayoutManager(context)
@@ -182,6 +184,15 @@ class Home : Fragment() {
             }
         })
 
+        goToSearch()
+
+    }
+
+    private fun goToSearch(){
+        searchBtn.setOnClickListener {
+            val intent = Intent(this.context, SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     companion object {

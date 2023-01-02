@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile -> replaceFragment(ProfileSettingFragment())
                 R.id.wishlist -> replaceFragment(WishlistFragment())
                 else -> {
-
+                    replaceFragment(Home())
                 }
             }
             true

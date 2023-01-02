@@ -92,5 +92,14 @@
     <string name="average_rating">Average rating</string>
     <string name="success_update">Successfully update</string>
     <string name="change">Change</string>
+    <string name="search_user">Search User</string>
+    <string name="search_review">Search Review</string>
+    <string name="search">Search</string>
+    <string name="type_here">Type Here</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="no_data">Data Not Found</string>
+    <string name="go_to_search">Go to Search</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 
 </resources>
