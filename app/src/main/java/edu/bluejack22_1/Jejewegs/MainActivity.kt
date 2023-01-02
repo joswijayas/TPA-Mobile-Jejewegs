@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.reviewInTouch -> replaceFragment(ReviewLikedCommentedFragment())
 
                 else -> {
-
+                    replaceFragment(Home())
                 }
             }
             true

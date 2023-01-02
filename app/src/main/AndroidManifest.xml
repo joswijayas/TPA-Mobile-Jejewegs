@@ -14,6 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jejewegs">
         <activity
+<<<<<<< HEAD
+            android:name=".OtherProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+=======
             android:name=".NotificationActivity"
             android:exported="false" />
 
@@ -27,6 +42,7 @@
         <activity
             android:name=".CommentActivity"
             android:exported="false" />
+>>>>>>> 593fd5e49e20bfdb6e5b23c5fd3c8ccc45e94679
         <activity
             android:name=".ReviewDetailActivity"
             android:exported="false" />
