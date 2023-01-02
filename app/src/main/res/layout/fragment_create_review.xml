@@ -140,6 +140,14 @@
                     android:backgroundTint="@color/dark_yellow"
                     android:text="@string/create_post"
                     android:textStyle="bold"/>
+                <Button
+                    android:id="@+id/btn_create_remind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/dark_yellow"
+                    android:text="@string/create_reminder"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
 

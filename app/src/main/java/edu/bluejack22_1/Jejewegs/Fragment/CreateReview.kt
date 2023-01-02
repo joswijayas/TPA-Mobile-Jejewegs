@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import edu.bluejack22_1.Jejewegs.CreateNotificationActivity
 import edu.bluejack22_1.Jejewegs.LoginActivity
 import edu.bluejack22_1.Jejewegs.MainActivity
 import edu.bluejack22_1.Jejewegs.Model.Review
@@ -84,6 +85,11 @@ class CreateReview : Fragment() {
         removeButton.visibility = View.GONE
         imageView.visibility = View.GONE
         Log.d("dddddd", "aaaaaa")
+
+        binding.btnCreateRemind.setOnClickListener{
+            val intent = Intent(context, CreateNotificationActivity::class.java)
+            startActivity(intent)
+        }
 
         createReviewButton.setOnClickListener{
             Log.d("dddddd", "aaaaaa")

@@ -25,8 +25,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
 import edu.bluejack22_1.Jejewegs.LoginActivity
+import edu.bluejack22_1.Jejewegs.MainActivity
 import edu.bluejack22_1.Jejewegs.Model.Review
 import edu.bluejack22_1.Jejewegs.Model.User
+import edu.bluejack22_1.Jejewegs.NotificationActivity
 import edu.bluejack22_1.Jejewegs.R
 import edu.bluejack22_1.Jejewegs.databinding.FragmentProfileBinding
 
@@ -70,6 +72,12 @@ class ProfileFragment : Fragment() {
         review_ids = arrayListOf()
         db = FirebaseFirestore.getInstance()
 //
+
+        binding.notificationIV.setOnClickListener{
+            val intent = Intent(context, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val docRef = db.collection("users").document(uid)
         docRef.addSnapshotListener{ it, err ->

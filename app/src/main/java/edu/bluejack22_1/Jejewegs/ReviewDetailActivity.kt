@@ -32,11 +32,11 @@ class ReviewDetailActivity : AppCompatActivity() {
         binding = ActivityReviewDetailBinding.inflate(layoutInflater)
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
         var docRef = db.collection("reviews").document(reviewId)
-
         docRef.get().addOnSuccessListener {
             it->
             reviewer_id = it.get("reviewer_id").toString()
             if (!uid.equals(reviewer_id)){
+//                Glide.with(binding.ivReviewImage.context).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
                 binding.overallRating.visibility = View.GONE
                 binding.ratingViewer.visibility = View.VISIBLE
                 binding.giveRateBtn.setOnClickListener{
@@ -48,12 +48,18 @@ class ReviewDetailActivity : AppCompatActivity() {
                     }else{
                         db.collection("reviews").document(reviewId).update("review_people_rating", FieldValue.increment(intRate.toInt().toDouble())).addOnSuccessListener {
                             db.collection("reviews").document(reviewId).update("review_people_count", FieldValue.increment(1.toDouble())).addOnSuccessListener {
+                                docRef.addSnapshotListener{ it, err->
+                                    if (it != null && it.exists()) {
+                                        Glide.with(binding.ivReviewImage.context).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
+                                    }
+                                }
                                 Toast.makeText(baseContext, "Success give rate", Toast.LENGTH_SHORT)
                             }
                         }
                     }
                 }
             }else{
+//                Glide.with(binding.ivReviewImage.context).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
                 binding.btnEdit.visibility = View.VISIBLE
                 binding.btnEdit.setOnClickListener{
                     binding.btnSave.visibility = View.VISIBLE
@@ -62,11 +68,12 @@ class ReviewDetailActivity : AppCompatActivity() {
                     binding.tvReviewDescription.isEnabled = true
                 }
                 binding.btnSave.setOnClickListener{
-                    binding.btnSave.visibility = View.GONE
-                    binding.btnEdit.visibility = View.VISIBLE
-                    if(binding.tvReviewTitle.text.toString().isEmpty() || binding.tvReviewDescription.text.toString().isEmpty()){
+                    if(binding.tvReviewTitle.text.toString().isEmpty()){
                         binding.tvReviewTitle.error = getString(R.string.allfield_must_filled)
                         binding.tvReviewTitle.requestFocus()
+
+                    }
+                    else if(binding.tvReviewDescription.text.toString().isEmpty()){
                         binding.tvReviewDescription.error = getString(R.string.allfield_must_filled)
                         binding.tvReviewDescription.requestFocus()
                     }
@@ -79,6 +86,13 @@ class ReviewDetailActivity : AppCompatActivity() {
                             Toast.makeText(baseContext, getString(R.string.success_update), Toast.LENGTH_SHORT)
                             binding.tvReviewTitle.isEnabled = false
                             binding.tvReviewDescription.isEnabled = false
+                            binding.btnSave.visibility = View.GONE
+                            binding.btnEdit.visibility = View.VISIBLE
+                            docRef.addSnapshotListener{ it, err->
+                                if (it != null && it.exists()) {
+                                    Glide.with(binding.ivReviewImage.context).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
+                                }
+                            }
                         }
                     }
                 }
@@ -86,9 +100,11 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
         docRef.addSnapshotListener{ it, err->
             if(it != null && it.exists()){
+                Glide.with(applicationContext).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
                 val comments = it.data?.get("review_comments") as? List<*>
                 val likes = it.data?.get("review_likes") as? List<*>
-                Glide.with(binding.ivReviewImage.context).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
+                Log.d("imageurl", it.get("review_image").toString())
+
                 binding.ivReviewImage.setImageURI(Uri.parse(it.get("review_image").toString()))
                 binding.tvReviewTitle.setText(it.get("reviewer_title").toString())
                 binding.tvReviewDescription.setText(it.get("review_description").toString())
@@ -127,14 +143,37 @@ class ReviewDetailActivity : AppCompatActivity() {
             db.collection("reviews").document(reviewId).update("review_likes", FieldValue.arrayUnion(uid))
             binding.ivLike.visibility = View.GONE
             binding.ivLikeColored.visibility = View.VISIBLE
+            var name = ""
+            db.collection("users").document(uid).get().addOnSuccessListener {
+                name = it.get("user_fullname").toString()
+                docRef.addSnapshotListener{ it, err->
+                    if (it != null && it.exists()) {
+                        Glide.with(applicationContext).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
+                        db.collection("users").document(it.get("reviewer_id").toString()).update("user_notifications", FieldValue.arrayUnion(name + " notif_liked," + it.get("reviewer_title").toString()))
+                    }
+                }
+                db.collection("users").document(uid).update("review_likes", FieldValue.arrayUnion(reviewId))
+            }
 
-            db.collection("users").document(uid).update("review_likes", FieldValue.arrayUnion(reviewId))
         }
         binding.ivLikeColored.setOnClickListener{
             db.collection("reviews").document(reviewId).update("review_likes", FieldValue.arrayRemove(uid))
             binding.ivLike.visibility = View.VISIBLE
             binding.ivLikeColored.visibility = View.GONE
-            db.collection("users").document(uid).update("review_likes", FieldValue.arrayRemove(reviewId))
+
+            var name = ""
+            db.collection("users").document(uid).get().addOnSuccessListener {
+                name = it.get("user_fullname").toString()
+                docRef.addSnapshotListener{ it, err->
+                    if (it != null && it.exists()) {
+                        Glide.with(applicationContext).load(Uri.parse(it.get("review_image").toString())).into(binding.ivReviewImage)
+                        db.collection("users").document(it.get("reviewer_id").toString()).update("user_notifications", FieldValue.arrayRemove(name + " notif_liked," + it.get("reviewer_title").toString()))
+                    }
+                }
+                db.collection("users").document(uid).update("review_likes", FieldValue.arrayRemove(reviewId))
+            }
+
+
         }
 
         binding.ivDelete.setOnClickListener{
@@ -151,6 +190,12 @@ class ReviewDetailActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { e -> Log.w("err", "Error deleting document", e) }
             db.collection("users").document(uid).update("user_reviews", FieldValue.arrayRemove(reviewId))
+        }
+
+        binding.ivComment.setOnClickListener{
+            val intent = Intent(this, CommentActivity::class.java)
+            intent.putExtra("dataid", reviewId)
+            startActivity(intent)
         }
 
 
