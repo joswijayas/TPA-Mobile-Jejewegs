@@ -122,4 +122,5 @@
     <string name="rate_asc">Nilai Naik</string>
     <string name="like_desc">Suka Turun</string>
     <string name="rate_desc">Nilai Menurun</string>
+    <string name="none">Tidak ada</string>
 </resources>

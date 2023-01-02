@@ -20,7 +20,7 @@
 
             <Spinner
                 android:id="@+id/spinner_choices"
-                android:layout_width="120dp"
+                android:layout_width="140dp"
                 android:layout_height="50dp"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
@@ -31,50 +31,23 @@
 
             <Spinner
                 android:id="@+id/spinner_order"
-                android:layout_width="120dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
                 android:entries="@array/orders"
                 android:padding="10dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp" />
-
-            <Button
-                android:id="@+id/topRatedBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/top_rated"
-                android:visibility="gone">
-            </Button>
-
-            <Button
-                android:id="@+id/allRatedBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/all_rated"
-                android:visibility="gone">
-            </Button>
-
-<!--            <Button-->
-<!--                android:id="@+id/btnSearch"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/go_to_search"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_marginTop="20dp"/>-->
 
             <ImageButton
                 android:id="@+id/btnSearch"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
-                android:src="@mipmap/ic_search"/>
+                android:src="@mipmap/ic_search"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 

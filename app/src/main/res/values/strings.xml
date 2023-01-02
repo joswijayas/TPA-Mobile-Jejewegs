@@ -24,27 +24,27 @@
     <string name="already_have_account">Already Have Account?</string>
     <string name="create_review">Create Review</string>
     <string-array name="brands">
-        <item>Nike</item>
-        <item>Adidas</item>
-        <item>Puma</item>
-        <item>Skechers</item>
-        <item>Reebok</item>
+        <item>@string/nike</item>
+        <item>@string/adidas</item>
+        <item>@string/puma</item>
+        <item>@string/skechers</item>
+        <item>@string/reebok</item>
     </string-array>
     <string-array name="choices">
-        <item>All Rated</item>
-        <item>Top Rated</item>
-        <item>Nike</item>
-        <item>Adidas</item>
-        <item>Puma</item>
-        <item>Skechers</item>
-        <item>Reebok</item>
+        <item>@string/all_rated</item>
+        <item>@string/top_rated</item>
+        <item>@string/nike</item>
+        <item>@string/adidas</item>
+        <item>@string/puma</item>
+        <item>@string/skechers</item>
+        <item>@string/reebok</item>
     </string-array>
     <string-array name="orders">
-        <item>None</item>
-        <item>Like Asc.</item>
-        <item>Rate Asc.</item>
-        <item>Like Desc.</item>
-        <item>Rate Desc.</item>
+        <item>@string/none</item>
+        <item>@string/like_asc</item>
+        <item>@string/rate_asc</item>
+        <item>@string/like_desc</item>
+        <item>@string/rate_desc</item>
     </string-array>
     <string name="tag_prompt">Choose a brand</string>
     <string name="review_description">Review description</string>
@@ -140,7 +140,7 @@
     <string name="puma" translatable="false">Puma</string>
     <string name="skechers" translatable="false">Skechers</string>
     <string name="reebok" translatable="false">Reebok</string>
-    <string name="none" translatable="false">None</string>
+    <string name="none">None</string>
     <string name="like_asc">Like Asc.</string>
     <string name="rate_asc">Rate Asc.</string>
     <string name="like_desc">Like Desc.</string>
