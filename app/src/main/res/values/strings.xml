@@ -47,7 +47,7 @@
         <item>@string/rate_desc</item>
     </string-array>
     <string name="tag_prompt">Choose a brand</string>
-    <string name="review_description">Review description</string>
+    <string name="review_description">Description:</string>
     <string name="rate_min_1_max_5">Rate (Min 1, Max 5)</string>
     <string name="create_post">Create Post!</string>
     <string name="add_image">Add Image</string>
@@ -64,12 +64,12 @@
     <string name="favorite_sneaker">Favorite Sneaker</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
-    <string name="review_title">Review Title:</string>
-    <string name="review_brand">Review Brand:</string>
-    <string name="review_rate">Review Rate:</string>
+    <string name="review_title">Title:</string>
+    <string name="review_brand">Brand:</string>
+    <string name="review_rate">Rate:</string>
     <string name="reviewer_id">Reviewer Id:</string>
-    <string name="review_like_count">Review Like Count:</string>
-    <string name="review_comment_count">Review Comment Count:</string>
+    <string name="review_like_count">Like Count:</string>
+    <string name="review_comment_count">Comment Count:</string>
     <string name="fullname_must_filled">Full Name must be filled</string>
     <string name="location_must_filled">Location must be filled</string>
     <string name="favoritesneaker_must_filled">Favorite Sneaker must be filled</string>
