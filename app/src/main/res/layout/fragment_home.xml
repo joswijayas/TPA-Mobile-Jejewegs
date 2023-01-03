@@ -21,24 +21,24 @@
             <Spinner
                 android:id="@+id/spinner_choices"
                 android:layout_width="140dp"
-                android:layout_height="50dp"
+                android:layout_height="58dp"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
                 android:entries="@array/choices"
                 android:padding="10dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="18dp" />
 
             <Spinner
                 android:id="@+id/spinner_order"
                 android:layout_width="130dp"
-                android:layout_height="50dp"
+                android:layout_height="58dp"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
                 android:entries="@array/orders"
                 android:padding="10dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="18dp" />
 
             <ImageButton
                 android:id="@+id/btnSearch"
@@ -56,6 +56,6 @@
             android:id="@+id/recycleView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/review_card"/>
+            tools:listitem="@layout/review_card" />
     </LinearLayout>
 </FrameLayout>

@@ -221,7 +221,7 @@ class CreateReview : Fragment() {
             bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, pathImage)
             imageView.setImageBitmap(bitmap)
             removeButton.visibility = View.VISIBLE
-            binding.imagePreview.visibility =View.VISIBLE
+            binding.imagePreview.visibility = View.VISIBLE
             binding.imagePreview.setImageBitmap(bitmap)
             Log.d("imageview", pathImage.toString())
         }
@@ -230,6 +230,7 @@ class CreateReview : Fragment() {
     private fun removeImg(){
         binding.imagePreview.setImageBitmap(null)
         removeButton.visibility = View.GONE
+        binding.imagePreview.visibility = View.GONE
     }
 
     companion object {
