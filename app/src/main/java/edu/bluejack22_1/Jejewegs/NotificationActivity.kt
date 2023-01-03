@@ -61,6 +61,13 @@ class NotificationActivity : AppCompatActivity() {
                     }else if(theRest.equals("notif_commented")){
                         var res = firstWord.plus(getString(R.string.notif_commented)).plus(title)
                         notificationList.add(res)
+                    }else if(theRest.equals("notif_followed")){
+                        var res = firstWord.plus(getString(R.string.notif_followed))
+                        notificationList.add(res)
+                    }
+                    else if(theRest.equals("notif_new_review")){
+                        var res = firstWord.plus(getString(R.string.notif_new_review).plus(title))
+                        notificationList.add(res)
                     }
                     adapterNotification = NotificationAdapter(notificationList)
                     recyclerView.adapter = adapterNotification

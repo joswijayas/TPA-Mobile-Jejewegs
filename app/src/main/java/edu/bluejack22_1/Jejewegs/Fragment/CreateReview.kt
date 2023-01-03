@@ -183,7 +183,22 @@ class CreateReview : Fragment() {
                     Log.d("docRef", docRef.id)
                     val db = FirebaseFirestore.getInstance()
                     val userRef = db.collection("users").document(userId)
-                    userRef.update("user_reviews", FieldValue.arrayUnion(docRef.id))
+                    var username = ""
+                    userRef.get().addOnSuccessListener {
+                        username = it.get("user_fullname").toString()
+                    }
+                    userRef.update("user_reviews", FieldValue.arrayUnion(docRef.id)).addOnSuccessListener {
+                        userRef.get().addOnSuccessListener {
+                            val user_followers = it?.get("user_followers") as? List<String>
+
+                            if(user_followers != null){
+                                for(x in user_followers){
+                                    db.collection("users").document(x).update("user_notifications", FieldValue.arrayUnion(username.plus(" notif_new_review,").plus(newReview.reviewer_title)))
+                                }
+                            }
+
+                        }
+                    }
                     Toast.makeText(context , getString(R.string.create_review_sucess) , Toast.LENGTH_SHORT).show()
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)

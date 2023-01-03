@@ -108,6 +108,7 @@
     <string name="average_rating">Average rating</string>
     <string name="success_update">Successfully update</string>
     <string name="change">Change</string>
+
     <string name="search_user">Search User</string>
     <string name="search_review">Search Review</string>
     <string name="search">Search</string>
@@ -117,6 +118,7 @@
     <string name="go_to_search">Go to Search</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+
     <string name="input_your_comment">Input your comment...</string>
     <string name="review_comment">Review Comment</string>
     <string name="must_be_filled">Must be filled</string>
@@ -135,6 +137,7 @@
     <string name="notification">Notification</string>
     <string name="notif_liked">" has liked your review "</string>
     <string name="notif_commented">" has commented your review "</string>
+
     <string name="nike" translatable="false">Nike</string>
     <string name="adidas" translatable="false">Adidas</string>
     <string name="puma" translatable="false">Puma</string>
@@ -149,5 +152,9 @@
     <string name="rate" translatable="false">review_rate</string>
     <string name="asc" translatable="false">asc</string>
     <string name="desc" translatable="false">desc</string>
+
+    <string name="notif_followed">" has followed you"</string>
+    <string name="notif_new_review">" has create new review "</string>
+
 
 </resources>

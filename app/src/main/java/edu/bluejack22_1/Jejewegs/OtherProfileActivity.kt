@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.bluejack22_1.Jejewegs.Model.User
 import edu.bluejack22_1.Jejewegs.databinding.ActivityOtherProfileBinding
+import java.lang.reflect.Field
 
 class OtherProfileActivity : AppCompatActivity() {
 
@@ -100,6 +101,11 @@ class OtherProfileActivity : AppCompatActivity() {
         binding.btnFollow.setOnClickListener {
             db.collection("users").document(currentUid).update("user_followings", FieldValue.arrayUnion(targetUid))
             db.collection("users").document(targetUid).update("user_followers", FieldValue.arrayUnion(currentUid))
+            val currentTimestamp = System.currentTimeMillis()
+            db.collection("users").document(currentUid).get().addOnSuccessListener {
+                db.collection("users").document(targetUid).update("user_notifications", FieldValue.arrayUnion(it.get("user_fullname").toString() + " notif_followed," + currentTimestamp.toString()))
+            }
+
             binding.btnFollow.visibility = View.GONE
             binding.btnUnfollow.visibility = View.VISIBLE
             setUserData()
