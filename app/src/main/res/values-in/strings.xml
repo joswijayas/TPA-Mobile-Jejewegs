@@ -125,12 +125,7 @@
     <string name="rate_desc">Nilai Menurun</string>
     <string name="none">Tidak ada</string>
 
-    <string name="type_here">Ketik Di Sini</string>
-    <string name="back_to_home">Balik ke Beranda</string>
-    <string name="no_data">Data tidak ditemukan</string>
-    <string name="go_to_search">Pergi ke Cari</string>
-    <string name="follow">Ikuti</string>
-    <string name="unfollow">Berhenti Ikuti</string>
+
     <string name="notif_followed">" telah mengikuti anda"</string>
     <string name="notif_new_review">" telah membuat ulasan baru "</string>
 

@@ -52,7 +52,8 @@
                         android:visibility="gone"
                         android:text="@string/edit"
                         android:layout_marginRight="5dp"
-                        android:textSize="4sp">
+                        android:textSize="6dp"
+                        android:backgroundTint="@color/dark_yellow">
                     </Button>
                     <Button
                         android:id="@+id/saveCommentButton"
@@ -60,7 +61,8 @@
                         android:layout_height="27dp"
                         android:visibility="gone"
                         android:text="@string/save"
-                        android:textSize="4sp">
+                        android:textSize="6dp"
+                        android:backgroundTint="@color/dark_yellow">
                     </Button>
                     <ImageView
                         android:id="@+id/ivDelete"
