@@ -79,7 +79,8 @@
             android:layout_height="wrap_content"
             android:text="@string/create_reminder"
             android:textSize="16dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:backgroundTint="@color/dark_yellow">
         </Button>
 
     </LinearLayout>

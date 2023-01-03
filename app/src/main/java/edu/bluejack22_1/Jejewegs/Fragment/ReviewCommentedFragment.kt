@@ -71,20 +71,21 @@ class ReviewCommentedFragment : Fragment() {
             if(it != null && it.exists()){
                 reviewList.clear()
                 review_ids.clear()
-                var liked_reviews = it.get("user_comments_on_reviews") as List<String>
-                for(x in liked_reviews){
-                    db.collection("reviews").document(x).addSnapshotListener{
-                            it, err->
-                        if(it != null && it.exists()){
-                            val review: Review? = it.toObject(Review::class.java)
-                            if (review != null) {
-                                review.review_id = it.id
-                                Log.d("dataxid", it.id)
-                                review_ids.add(it.id)
-                                reviewList.add(review)
-                                adapterReview = ReviewAdapter(reviewList, review_ids, "1")
-                                recyclerView.adapter = adapterReview
+                var liked_reviews = it?.get("user_comments_on_reviews") as? List<String>
+                if (liked_reviews != null) {
+                    for(x in liked_reviews){
+                        db.collection("reviews").document(x).addSnapshotListener{ it, err->
+                            if(it != null && it.exists()){
+                                val review: Review? = it.toObject(Review::class.java)
+                                if (review != null) {
+                                    review.review_id = it.id
+                                    Log.d("dataxid", it.id)
+                                    review_ids.add(it.id)
+                                    reviewList.add(review)
+                                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+                                    recyclerView.adapter = adapterReview
 
+                                }
                             }
                         }
                     }
