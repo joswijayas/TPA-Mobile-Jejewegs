@@ -25,7 +25,7 @@
     
     <string name="create_review">Buat Ulasan</string>
     <string name="tag_prompt">Pilih merek</string>
-    <string name="review_description">Tulis deskripsi</string>
+    <string name="review_description">Deskripsi:</string>
     <string name="rate_min_1_max_5">Nilai (Min 1, Max 5)</string>
     <string name="create_post">Buat Post!</string>
     <string name="add_image">Tambah gambar</string>
@@ -47,12 +47,12 @@
     <string name="favorite_sneaker">Sneaker Favorit</string>
     <string name="edit">Ubah</string>
     <string name="save">Simpan</string>
-    <string name="review_title">"Judul Ulasan: "</string>
-    <string name="review_brand">"Ulasan Merek: "</string>
-    <string name="review_rate">Nilai Ulasan:</string>
+    <string name="review_title">"Judul: "</string>
+    <string name="review_brand">"Merek: "</string>
+    <string name="review_rate">Nilai:</string>
     <string name="reviewer_id">Id Pengulas:</string>
-    <string name="review_like_count">Jumlah Suka Ulasan:</string>
-    <string name="review_comment_count">Jumlah Komentar Ulasan:</string>
+    <string name="review_like_count">Jumlah Suka:</string>
+    <string name="review_comment_count">Jumlah Komentar:</string>
     <string name="register_sucess">Pendaftaran Berhasil</string>
     <string name="rate_boundaries">Nilai harus antara 1 dan 5</string>
     <string name="password_minimum_length">Kata sandi harus diantara 6 - 20 karakter</string>
@@ -122,7 +122,7 @@
     <string name="like_asc">Suka Naik</string>
     <string name="rate_asc">Nilai Naik</string>
     <string name="like_desc">Suka Turun</string>
-    <string name="rate_desc">Nilai Menurun</string>
+    <string name="rate_desc">Nilai Turun</string>
     <string name="none">Tidak ada</string>
 
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.ProfileFragment"
-    android:padding="15dp"
+    android:padding="10dp"
     android:background="@color/light_yellow">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:src="@mipmap/default_profile"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_marginVertical="5dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp">
+            android:layout_marginHorizontal="15dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

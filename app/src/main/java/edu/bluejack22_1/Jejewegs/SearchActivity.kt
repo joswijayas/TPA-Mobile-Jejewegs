@@ -108,8 +108,10 @@ class SearchActivity : AppCompatActivity() {
                 }
                 if(userLists.size == 0){
                     binding.tvNotFound.visibility = View.VISIBLE
+                    binding.recycleViewSearch.visibility = View.GONE
                 }
                 else{
+                    binding.recycleViewSearch.visibility = View.VISIBLE
                     binding.tvNotFound.visibility = View.GONE
                 }
                 applyUserAdapter()

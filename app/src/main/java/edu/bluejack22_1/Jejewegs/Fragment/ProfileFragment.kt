@@ -23,18 +23,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import edu.bluejack22_1.Jejewegs.*
 import edu.bluejack22_1.Jejewegs.Adapter.ReviewAdapter
-import edu.bluejack22_1.Jejewegs.LoginActivity
-import edu.bluejack22_1.Jejewegs.MainActivity
 import edu.bluejack22_1.Jejewegs.Model.Review
 import edu.bluejack22_1.Jejewegs.Model.User
-import edu.bluejack22_1.Jejewegs.NotificationActivity
-import edu.bluejack22_1.Jejewegs.R
 import edu.bluejack22_1.Jejewegs.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileBinding
+    private lateinit var adapterReview: ReviewAdapter
     private lateinit var recyclerView : RecyclerView
     private lateinit var reviewList: ArrayList<Review>
     private lateinit var review_ids: ArrayList<String>
@@ -87,14 +85,14 @@ class ProfileFragment : Fragment() {
             reviewList.clear()
             review_ids.clear()
             val reviewlists = it?.data?.get("user_reviews") as? List<*>
-            if (reviewlists != null) {
-                Log.d("size", reviewlists.size.toString())
-                if(reviewlists?.size == 0){
-                    reviewList.clear()
-                    review_ids.clear()
-                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
-                }
-            }
+//            if (reviewlists != null) {
+//                Log.d("size", reviewlists.size.toString())
+//                if(reviewlists?.size == 0){
+//                    reviewList.clear()
+//                    review_ids.clear()
+//                    recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+//                }
+//            }
             if (reviewlists != null) {
                 for (x in reviewlists){
                     val docRef2 = db.collection("reviews").document(x.toString())
@@ -104,9 +102,15 @@ class ProfileFragment : Fragment() {
                             val review:Review? = doc.toObject(Review::class.java)
                             if (review != null) {
                                 Log.d("mana", doc.id)
-                                recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+                                adapterReview = ReviewAdapter(reviewList, review_ids, "2")
+                                recyclerView.adapter = adapterReview
                                 review_ids.add(doc.id)
                                 reviewList.add(review)
+                                adapterReview.onItemClicked = {
+                                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                                    intent.putExtra("dataid", doc.id)
+                                    startActivity(intent)
+                                }
                             }
                         }
                     }
@@ -116,7 +120,8 @@ class ProfileFragment : Fragment() {
                 Log.d("mskk", "msk sini")
                 reviewList.clear()
                 review_ids.clear()
-                recyclerView.adapter = ReviewAdapter(reviewList, review_ids, "2")
+                adapterReview = ReviewAdapter(reviewList, review_ids, "2")
+                recyclerView.adapter = adapterReview
             }
 
         }
