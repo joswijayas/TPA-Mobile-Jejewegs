@@ -24,11 +24,27 @@
     <string name="already_have_account">Already Have Account?</string>
     <string name="create_review">Create Review</string>
     <string-array name="brands">
-        <item>Nike</item>
-        <item>Adidas</item>
-        <item>Puma</item>
-        <item>Skechers</item>
-        <item>Reebok</item>
+        <item>@string/nike</item>
+        <item>@string/adidas</item>
+        <item>@string/puma</item>
+        <item>@string/skechers</item>
+        <item>@string/reebok</item>
+    </string-array>
+    <string-array name="choices">
+        <item>@string/all_rated</item>
+        <item>@string/top_rated</item>
+        <item>@string/nike</item>
+        <item>@string/adidas</item>
+        <item>@string/puma</item>
+        <item>@string/skechers</item>
+        <item>@string/reebok</item>
+    </string-array>
+    <string-array name="orders">
+        <item>@string/none</item>
+        <item>@string/like_asc</item>
+        <item>@string/rate_asc</item>
+        <item>@string/like_desc</item>
+        <item>@string/rate_desc</item>
     </string-array>
     <string name="tag_prompt">Choose a brand</string>
     <string name="review_description">Review description</string>
@@ -85,7 +101,7 @@
     <string name="success_change_pass">Sucessfully change password</string>
     <string name="login_again">Please login again</string>
     <string name="wishlist">Wishlist</string>
-    <string name="top_rated">Top rated</string>
+    <string name="top_rated">Top Rated</string>
     <string name="all_rated">All Rated</string>
     <string name="give_rating">Give rating</string>
     <string name="give_rate">Give</string>
@@ -121,7 +137,24 @@
     <string name="notification">Notification</string>
     <string name="notif_liked">" has liked your review "</string>
     <string name="notif_commented">" has commented your review "</string>
+
+    <string name="nike" translatable="false">Nike</string>
+    <string name="adidas" translatable="false">Adidas</string>
+    <string name="puma" translatable="false">Puma</string>
+    <string name="skechers" translatable="false">Skechers</string>
+    <string name="reebok" translatable="false">Reebok</string>
+    <string name="none">None</string>
+    <string name="like_asc">Like Asc.</string>
+    <string name="rate_asc">Rate Asc.</string>
+    <string name="like_desc">Like Desc.</string>
+    <string name="rate_desc">Rate Desc.</string>
+    <string name="like" translatable="false">review_likes</string>
+    <string name="rate" translatable="false">review_rate</string>
+    <string name="asc" translatable="false">asc</string>
+    <string name="desc" translatable="false">desc</string>
+
     <string name="notif_followed">" has followed you"</string>
     <string name="notif_new_review">" has create new review "</string>
+
 
 </resources>

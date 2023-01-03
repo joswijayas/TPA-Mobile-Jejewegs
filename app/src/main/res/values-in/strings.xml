@@ -112,6 +112,19 @@
     <string name="search_user">Cari Pengguna</string>
     <string name="search_review">Cari Ulasan</string>
     <string name="search">Cari</string>
+
+    <string name="type_here">Ketik di sini</string>
+    <string name="back_to_home">Balik ke Beranda</string>
+    <string name="no_data">Data Tidak Ditemukan</string>
+    <string name="go_to_search">Pergi ke Cari</string>
+    <string name="follow">Ikuti</string>
+    <string name="unfollow">Berhenti Ikuti</string>
+    <string name="like_asc">Suka Naik</string>
+    <string name="rate_asc">Nilai Naik</string>
+    <string name="like_desc">Suka Turun</string>
+    <string name="rate_desc">Nilai Menurun</string>
+    <string name="none">Tidak ada</string>
+
     <string name="type_here">Ketik Di Sini</string>
     <string name="back_to_home">Balik ke Beranda</string>
     <string name="no_data">Data tidak ditemukan</string>
@@ -120,4 +133,5 @@
     <string name="unfollow">Berhenti Ikuti</string>
     <string name="notif_followed">" telah mengikuti anda"</string>
     <string name="notif_new_review">" telah membuat ulasan baru "</string>
+
 </resources>
