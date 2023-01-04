@@ -50,19 +50,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchReview(searched_review: String){
-        Log.d("test", "searched: $searched_review")
+        Log.d("test", "search review: $searched_review")
         val db = Firebase.firestore
         db.collection("reviews").orderBy("reviewer_title")
             .startAt(searched_review).endAt(searched_review+"\uf8ff")
             .get().addOnSuccessListener {
 //                Log.d("test", "it: $it")
 //                Log.d("test", "it.doc.size: ${it.documents.size}")
-                if(it.documents.size == 0){
-                    binding.tvNotFound.visibility = View.VISIBLE
-                }
-                else{
-                    binding.tvNotFound.visibility = View.GONE
-                }
                 reviewList = arrayListOf()
                 reviewIdList = arrayListOf()
                 reviewList.clear()
@@ -79,6 +73,14 @@ class SearchActivity : AppCompatActivity() {
                     }
 //                    Log.d("test", "title: $title")
                 }
+                if(reviewList.size == 0){
+                    binding.tvNotFound.visibility = View.VISIBLE
+                    binding.recycleViewSearch.visibility = View.GONE
+                }
+                else{
+                    binding.recycleViewSearch.visibility = View.VISIBLE
+                    binding.tvNotFound.visibility = View.GONE
+                }
                 applyReviewAdapter()
             }.addOnFailureListener {
                 Log.d("test", "error review adapter")
@@ -86,6 +88,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchUser(searchedText: String){
+        Log.d("test", "search user: $searchedText")
         val db = Firebase.firestore
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         var user_id = ""
