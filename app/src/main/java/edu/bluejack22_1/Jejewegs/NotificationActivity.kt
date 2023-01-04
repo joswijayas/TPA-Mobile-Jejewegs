@@ -35,43 +35,44 @@ class NotificationActivity : AppCompatActivity() {
             if(it != null && it.exists()){
                 notificationList.clear()
 
-                var user_notifications = it?.get("user_notifications") as List<String>
-                for(x in user_notifications){
-//                    review_ids.add(it.id)
-//                    reviewList.add(review)
-//                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
-//                    recyclerView.adapter = adapterReview
-//                    val notif: Notification? = x.toObject(Review::class.java)
-                    var mystring = x
-                    var arr = mystring.split(" ".toRegex(), 2).toTypedArray()
-                    var arr2 = mystring.split(",".toRegex(), 2).toTypedArray()
-                    var firstWord = arr[0] //the
-                    var theRest = arr[1]
-                    var value = theRest.split(",".toRegex(), 2).toTypedArray()
-                    var title = arr2[1]
-                    theRest = value[0]
+                var user_notifications = it?.get("user_notifications") as? List<String>
+                if (user_notifications != null) {
+                    for(x in user_notifications){
+            //                    review_ids.add(it.id)
+            //                    reviewList.add(review)
+            //                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")
+            //                    recyclerView.adapter = adapterReview
+            //                    val notif: Notification? = x.toObject(Review::class.java)
+                        var mystring = x
+                        var arr = mystring.split(" ".toRegex(), 2).toTypedArray()
+                        var arr2 = mystring.split(",".toRegex(), 2).toTypedArray()
+                        var firstWord = arr[0] //the
+                        var theRest = arr[1]
+                        var value = theRest.split(",".toRegex(), 2).toTypedArray()
+                        var title = arr2[1]
+                        theRest = value[0]
 
-                    Log.d("mystring", mystring)
-                    Log.d("firstWord", firstWord)
-                    Log.d("mystring", mystring)
-                    Log.d("mystring", mystring)
-                    if(theRest.equals("notif_liked")){
-                        var res = firstWord.plus(getString(R.string.notif_liked)).plus(title)
-                        notificationList.add(res)
-                    }else if(theRest.equals("notif_commented")){
-                        var res = firstWord.plus(getString(R.string.notif_commented)).plus(title)
-                        notificationList.add(res)
-                    }else if(theRest.equals("notif_followed")){
-                        var res = firstWord.plus(getString(R.string.notif_followed))
-                        notificationList.add(res)
-                    }
-                    else if(theRest.equals("notif_new_review")){
-                        var res = firstWord.plus(getString(R.string.notif_new_review).plus(title))
-                        notificationList.add(res)
-                    }
-                    adapterNotification = NotificationAdapter(notificationList)
-                    recyclerView.adapter = adapterNotification
+                        Log.d("mystring", mystring)
+                        Log.d("firstWord", firstWord)
+                        Log.d("mystring", mystring)
+                        Log.d("mystring", mystring)
+                        if(theRest.equals("notif_liked")){
+                            var res = firstWord.plus(getString(R.string.notif_liked)).plus(title)
+                            notificationList.add(res)
+                        }else if(theRest.equals("notif_commented")){
+                            var res = firstWord.plus(getString(R.string.notif_commented)).plus(title)
+                            notificationList.add(res)
+                        }else if(theRest.equals("notif_followed")){
+                            var res = firstWord.plus(getString(R.string.notif_followed))
+                            notificationList.add(res)
+                        } else if(theRest.equals("notif_new_review")){
+                            var res = firstWord.plus(getString(R.string.notif_new_review).plus(title))
+                            notificationList.add(res)
+                        }
+                        adapterNotification = NotificationAdapter(notificationList)
+                        recyclerView.adapter = adapterNotification
 
+                    }
                 }
             }
         }

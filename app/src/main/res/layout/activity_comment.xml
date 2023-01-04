@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CommentActivity">
+    tools:context=".CommentActivity"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,17 +17,18 @@
             android:layout_height="wrap_content"
             android:text="@string/review_comment"
             android:gravity="center_horizontal"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textColor="@color/dark_yellow">
         </TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:padding="10dp"
+            android:gravity="center">
             <EditText
                 android:id="@+id/etInputComment"
-                android:layout_width="310dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -34,11 +36,10 @@
                 android:hint="@string/input_your_comment"/>
             <Button
                 android:id="@+id/sendCommentBtn"
-                android:layout_width="100dp"
-                android:layout_height="60dp"
-                android:text="-->"
-                android:textSize="25dp"
-                android:gravity=""
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="->"
+                android:textSize="20sp"
                 android:backgroundTint="@color/dark_yellow"
                 >
             </Button>
