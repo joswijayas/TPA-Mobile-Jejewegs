@@ -55,8 +55,14 @@ class SearchActivity : AppCompatActivity() {
         db.collection("reviews").orderBy("reviewer_title")
             .startAt(searched_review).endAt(searched_review+"\uf8ff")
             .get().addOnSuccessListener {
-//                Log.d("test", "it: $it")
-//                Log.d("test", "it.doc.size: ${it.documents.size}")
+                Log.d("test", "it.doc.size: ${it.documents.size}")
+                if(it.documents.size == 0){
+                    binding.tvNotFound.visibility = View.VISIBLE
+                }
+                else{
+                    binding.tvNotFound.visibility = View.GONE
+                }
+
                 reviewList = arrayListOf()
                 reviewIdList = arrayListOf()
                 reviewList.clear()
