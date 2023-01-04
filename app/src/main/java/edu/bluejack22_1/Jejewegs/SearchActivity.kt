@@ -112,6 +112,7 @@ class SearchActivity : AppCompatActivity() {
                 for(x in it){
                     val user:User? = x.toObject(User::class.java)
                     if(user != null && !user.user_id.equals(user_id)){
+                        Log.d("userobj", user.user_fullname.toString())
                         userLists.add(user)
                     }
                 }
