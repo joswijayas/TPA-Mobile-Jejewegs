@@ -37,14 +37,14 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchReviewListener(){
         binding.btnSearchReview.setOnClickListener {
-            val searchedText = binding.etSearch.text.toString()
+            val searchedText = binding.etSearch.text.toString().lowercase()
             searchReview(searchedText)
         }
     }
 
     private fun searchUserListener(){
         binding.btnSearchUser.setOnClickListener {
-            val searchedText = binding.etSearch.text.toString()
+            val searchedText = binding.etSearch.text.toString().lowercase()
             searchUser(searchedText)
         }
     }
@@ -53,7 +53,7 @@ class SearchActivity : AppCompatActivity() {
         Log.d("test", "search review: $searched_review")
         val db = Firebase.firestore
         db.collection("reviews").orderBy("reviewer_title")
-            .startAt(searched_review).endAt(searched_review+"\uf8ff")
+            .startAt(searched_review.uppercase()).endAt(searched_review.lowercase()+"\uf8ff")
             .get().addOnSuccessListener {
                 Log.d("test", "it.doc.size: ${it.documents.size}")
 
@@ -62,11 +62,13 @@ class SearchActivity : AppCompatActivity() {
                 reviewList.clear()
                 reviewIdList.clear()
                 for (x in it) {
+
 //                    Log.d("test", "x.id: ${x.id}")
 //                    val title = x.data["reviewer_title"].toString()
                     val review:Review? = x.toObject(Review::class.java)
 //                    Log.d("test", "review title: ${review!!.reviewer_title}")
-                    if(review != null){
+                    Log.d("testing", review?.reviewer_title.toString().lowercase())
+                    if(review != null && review.reviewer_title.toString().lowercase().contains(searched_review)){
                         review.review_id = x.id
                         reviewList.add(review)
                         reviewIdList.add(x.id)
@@ -99,13 +101,14 @@ class SearchActivity : AppCompatActivity() {
         }
 
         db.collection("users").orderBy("user_fullname")
-            .startAt(searchedText).endAt(searchedText+"\uf8ff")
+            .startAt(searchedText.uppercase()).endAt(searchedText.lowercase()+"\uf8ff")
             .get().addOnSuccessListener {
                 userLists = arrayListOf()
                 userLists.clear()
                 for(x in it){
                     val user:User? = x.toObject(User::class.java)
-                    if(user != null && !user.user_id.equals(user_id)){
+                    if(user != null && !user.user_id.equals(user_id) && user?.user_fullname?.lowercase()!!
+                            .contains(searchedText)){
                         Log.d("userobj", user.user_fullname.toString())
                         userLists.add(user)
                     }
