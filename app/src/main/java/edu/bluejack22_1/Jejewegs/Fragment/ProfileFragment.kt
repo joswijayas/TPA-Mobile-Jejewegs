@@ -167,6 +167,8 @@ class ProfileFragment : Fragment() {
                 binding.etEmailProfile.setText(email.toString())
                 binding.etLocation.setText(location.toString())
                 binding.etFavoriteSneaker.setText(favoriteSneaker.toString())
+
+
             }
         }.addOnFailureListener{
 
@@ -181,6 +183,7 @@ class ProfileFragment : Fragment() {
 //                binding.etEmailProfile.isEnabled = true
                 binding.etLocation.isEnabled = true
                 binding.etFavoriteSneaker.isEnabled = true
+                imagePath = Uri.EMPTY
                 binding.profileImage.setOnClickListener { addChangeImageListener() }
                 isEdit = false;
             } else {
@@ -207,7 +210,7 @@ class ProfileFragment : Fragment() {
                     newUserData.user_fullname = binding.etFullName.text.toString()
                     newUserData.user_location = binding.etLocation.text.toString()
                     newUserData.user_fav_sneaker = binding.etFavoriteSneaker.text.toString()
-
+                    newUserData.insensitive_data = binding.etFullName.text.toString().lowercase()
                     newUserData.user_id = FirebaseAuth.getInstance().currentUser!!.uid
                     val ref = db.collection("users").document(newUserData.user_id!!)
 
@@ -227,6 +230,23 @@ class ProfileFragment : Fragment() {
 
                         ref.set(newUserData).addOnSuccessListener {
                             isEdit = true
+                            val userId = FirebaseAuth.getInstance().currentUser!!.uid
+                            val storagePath = "profilePicture/$userId"
+                            val ref = storage.getReference(storagePath)
+                            if(imagePath != Uri.EMPTY){
+                                ref.putFile(imagePath).addOnSuccessListener {
+                                    storage.reference.child(storagePath).downloadUrl.addOnSuccessListener {
+                                        db.collection("users").document(userId).update("user_image", it.toString()).addOnSuccessListener {
+                                            fetchUser()
+
+                                        }
+                                        Log.d("test", "success uri")
+                                    }.addOnFailureListener{
+                                        Log.d("test", "error uri")
+                                    }
+                                }
+
+                            }
                             binding.profileImage.setOnClickListener(null)
 //                            fetchUser()
                         }
@@ -251,22 +271,22 @@ class ProfileFragment : Fragment() {
     private var selectImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == Activity.RESULT_OK && it.data != null) {
             imagePath = it.data!!.data!!
-            val userId = FirebaseAuth.getInstance().currentUser!!.uid
             bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, imagePath)
             binding.profileImage.setImageBitmap(bitmap)
 //            binding.profileImage.visibility = View.INVISIBLE
 //            binding.previewProfileImage.visibility = View.VISIBLE
 //            binding.previewProfileImage.setImageBitmap(bitmap)
-            val storagePath = "profilePicture/$userId"
-            val ref = storage.getReference(storagePath)
-            ref.putFile(imagePath).addOnSuccessListener {
-                storage.reference.child(storagePath).downloadUrl.addOnSuccessListener {
-                    db.collection("users").document(userId).update("user_image", it.toString()).addOnSuccessListener { fetchUser() }
-                    Log.d("test", "success uri")
-                }.addOnFailureListener{
-                    Log.d("test", "error uri")
-                }
-            }
+//            val userId = FirebaseAuth.getInstance().currentUser!!.uid
+//            val storagePath = "profilePicture/$userId"
+//            val ref = storage.getReference(storagePath)
+//            ref.putFile(imagePath).addOnSuccessListener {
+//                storage.reference.child(storagePath).downloadUrl.addOnSuccessListener {
+//                    db.collection("users").document(userId).update("user_image", it.toString()).addOnSuccessListener { fetchUser() }
+//                    Log.d("test", "success uri")
+//                }.addOnFailureListener{
+//                    Log.d("test", "error uri")
+//                }
+//            }
 //            fetchUser()
 //            binding.profileImage.visibility = View.VISIBLE
 //            binding.previewProfileImage.visibility = View.INVISIBLE

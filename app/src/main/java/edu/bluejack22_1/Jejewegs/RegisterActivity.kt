@@ -70,9 +70,10 @@ class RegisterActivity : AppCompatActivity() {
                             "user_location" to newUserData.user_location,
                             "user_image" to newUserData.user_image,
                             "user_followers" to newUserData.user_followers,
-                            "user_following" to newUserData.user_followings,
+                            "user_followings" to newUserData.user_followings,
                             "user_reviews" to newUserData.user_reviews,
-                            "user_wishlists" to newUserData.user_wishlists
+                            "user_wishlists" to newUserData.user_wishlists,
+                            "insensitive_data" to newUserData.insensitive_data
                         )
                         Log.d("data_user", data.toString())
                         db.collection("users").document(newUserData.user_id.toString())

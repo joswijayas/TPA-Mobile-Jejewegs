@@ -15,7 +15,7 @@
     <string name="login">Masuk</string>
     <string name="email">Alamat Surel</string>
     <string name="password">Kata Sandi</string>
-    <string name="forgot_password">Lupa password?</string>
+    <string name="forgot_password">Lupa sandi?</string>
     <string name="new_user">Pengguna baru?</string>
     <string name="register_here">Daftar di sini</string>
     <string name="hello_blank_fragment">Halo Blank</string>
@@ -55,7 +55,7 @@
     <string name="review_comment_count">Jumlah Komentar:</string>
     <string name="register_sucess">Pendaftaran Berhasil</string>
     <string name="rate_boundaries">Nilai harus antara 1 dan 5</string>
-    <string name="password_minimum_length">Kata sandi harus diantara 6 - 20 karakter</string>
+    <string name="password_minimum_length">Kata sandi harus diantara 5 - 20 karakter</string>
     <string name="password_must_filled">Kata sandi harus di isi</string>
     <string name="must_add_picture">Harus tambah gambar</string>
     <string name="location_must_filled">Lokasi harus di isi</string>
@@ -71,18 +71,18 @@
     <string name="logout">Keluar</string>
     <string name="setting">Pengaturan</string>
     <string name="delete_account">Hapus Akun</string>
-    <string name="new_password">Password Baru</string>
-    <string name="confirm_new_password">Konfirmasi Password Baru</string>
-    <string name="change_password">Ganti Password</string>
+    <string name="new_password">Sandi Baru</string>
+    <string name="confirm_new_password">Konfirmasi Sandi Baru</string>
+    <string name="change_password">Ganti Sandi</string>
     <string name="profile_tab">Profil</string>
     <string name="setting_tab">Pengaturan</string>
     <string name="verification_account">Akun Verifikasi</string>
-    <string name="your_password">Password kamu</string>
+    <string name="your_password">Sandi kamu</string>
     <string name="verification">Verifikasi</string>
     <string name="account_verification">Akun Verifikasi</string>
     <string name="pass_conf_pass">Sandi dan konfirmasi sandi harus sama</string>
-    <string name="success_change_pass">Berhasil ganti password</string>
-    <string name="login_again">Silahkan masuk 88kembali</string>
+    <string name="success_change_pass">Berhasil ganti sandi</string>
+    <string name="login_again">Silahkan masuk kembali</string>
     <string name="wishlist">Ingin</string>
     <string name="top_rated">Nilai tinggi</string>
     <string name="all_rated">Semua nilai</string>
@@ -128,5 +128,6 @@
 
     <string name="notif_followed">" telah mengikuti anda"</string>
     <string name="notif_new_review">" telah membuat ulasan baru "</string>
+    <string name="success_delete_account">Berhasil hapus akun!</string>
 
 </resources>

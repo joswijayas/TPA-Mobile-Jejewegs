@@ -156,7 +156,7 @@ class LoginActivity : AppCompatActivity() {
                                         db.collection("users").document(user.uid.toString())
                                             .set(data)
                                             .addOnSuccessListener { documentReference ->
-                                                Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(this, getString(R.string.success_register), Toast.LENGTH_SHORT).show()
 
                                                 updateUI();
                                             }
