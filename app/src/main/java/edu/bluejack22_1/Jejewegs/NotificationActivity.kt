@@ -37,7 +37,8 @@ class NotificationActivity : AppCompatActivity() {
 
                 var user_notifications = it?.get("user_notifications") as? List<String>
                 if (user_notifications != null) {
-                    for(x in user_notifications){
+                    for(x in user_notifications.reversed()){
+                        Log.d("user_notif", x)
             //                    review_ids.add(it.id)
             //                    reviewList.add(review)
             //                    adapterReview = ReviewAdapter(reviewList, review_ids, "1")

@@ -118,6 +118,16 @@ class SettingFragment : Fragment() {
                         .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
                         .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
+                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build()
+
+                    val googlesigninclient = context?.let { it1 -> GoogleSignIn.getClient(it1, gso) }
+                    if (googlesigninclient != null) {
+                        googlesigninclient.signOut()
+                    }
+
                     val intent = Intent(context, LoginActivity::class.java)
                     startActivity(intent)
                     activity?.finish()

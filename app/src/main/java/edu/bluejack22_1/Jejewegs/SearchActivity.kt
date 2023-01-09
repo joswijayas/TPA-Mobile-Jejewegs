@@ -37,14 +37,14 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchReviewListener(){
         binding.btnSearchReview.setOnClickListener {
-            val searchedText = binding.etSearch.text.toString()
+            val searchedText = binding.etSearch.text.toString().lowercase()
             searchReview(searchedText)
         }
     }
 
     private fun searchUserListener(){
         binding.btnSearchUser.setOnClickListener {
-            val searchedText = binding.etSearch.text.toString()
+            val searchedText = binding.etSearch.text.toString().lowercase()
             searchUser(searchedText)
         }
     }
@@ -104,7 +104,9 @@ class SearchActivity : AppCompatActivity() {
                 userLists.clear()
                 for(x in it){
                     val user:User? = x.toObject(User::class.java)
-                    if(user != null && !user.user_id.equals(user_id)){
+                    if(user != null && !user.user_id.equals(user_id) && user?.user_fullname?.lowercase()!!
+                            .contains(searchedText)){
+                        Log.d("userobj", user.user_fullname.toString())
                         userLists.add(user)
                     }
                 }
