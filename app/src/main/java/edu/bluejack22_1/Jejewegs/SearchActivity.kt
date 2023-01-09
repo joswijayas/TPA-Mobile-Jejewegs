@@ -52,8 +52,9 @@ class SearchActivity : AppCompatActivity() {
     private fun searchReview(searched_review: String){
         Log.d("test", "search review: $searched_review")
         val db = Firebase.firestore
-        db.collection("reviews").orderBy("reviewer_title")
-            .startAt(searched_review.uppercase()).endAt(searched_review.lowercase()+"\uf8ff")
+        val searchedTextLowerCase = searched_review.lowercase()
+        db.collection("reviews").orderBy("insensitive_data")
+            .startAt(searchedTextLowerCase).endAt(searchedTextLowerCase+"\uf8ff")
             .get().addOnSuccessListener {
                 Log.d("test", "it.doc.size: ${it.documents.size}")
 
@@ -62,13 +63,8 @@ class SearchActivity : AppCompatActivity() {
                 reviewList.clear()
                 reviewIdList.clear()
                 for (x in it) {
-
-//                    Log.d("test", "x.id: ${x.id}")
-//                    val title = x.data["reviewer_title"].toString()
                     val review:Review? = x.toObject(Review::class.java)
-//                    Log.d("test", "review title: ${review!!.reviewer_title}")
-                    Log.d("testing", review?.reviewer_title.toString().lowercase())
-                    if(review != null && review.reviewer_title.toString().lowercase().contains(searched_review)){
+                    if(review != null){
                         review.review_id = x.id
                         reviewList.add(review)
                         reviewIdList.add(x.id)
@@ -94,14 +90,15 @@ class SearchActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         var user_id = ""
+        val searchedTextLowerCase = searchedText.lowercase()
         db.collection("users").document(userId).get().addOnSuccessListener {
             if(it != null){
                 user_id = it.data?.get("user_id").toString()
             }
         }
 
-        db.collection("users").orderBy("user_fullname")
-            .startAt(searchedText.uppercase()).endAt(searchedText.lowercase()+"\uf8ff")
+        db.collection("users").orderBy("insensitive_data")
+            .startAt(searchedTextLowerCase).endAt(searchedTextLowerCase+"\uf8ff")
             .get().addOnSuccessListener {
                 userLists = arrayListOf()
                 userLists.clear()

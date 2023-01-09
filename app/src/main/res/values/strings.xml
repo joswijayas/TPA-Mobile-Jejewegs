@@ -78,7 +78,7 @@
     <string name="password_must_filled">Password must be filled</string>
     <string name="invalid_credential">INVALID CREDENTIAL</string>
     <string name="authentication_failed">Authentication failed.</string>
-    <string name="password_minimum_length">Password must between 6 - 20 characters</string>
+    <string name="password_minimum_length">Password must between 5 - 20 characters</string>
     <string name="register_sucess">Register Successful</string>
     <string name="allfield_must_filled">All field must be filled</string>
     <string name="rate_boundaries">Rate must between 1 and 5</string>
@@ -155,6 +155,8 @@
 
     <string name="notif_followed">" has followed you"</string>
     <string name="notif_new_review">" has create new review "</string>
+    <string name="success_delete_account">Successfully delete account!</string>
+    <string name="success_register">Register Successful</string>
 
 
 </resources>

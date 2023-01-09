@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -77,7 +78,7 @@ class SettingFragment : Fragment() {
             val id = user?.uid
             user?.delete()?.addOnCompleteListener{
                 if(it.isSuccessful){
-                    Toast.makeText(context, "Successfully delete account!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.success_delete_account), Toast.LENGTH_SHORT).show()
 
                     val rootRef = FirebaseFirestore.getInstance()
                     val itemsRef = rootRef.collection("reviews")
@@ -89,6 +90,26 @@ class SettingFragment : Fragment() {
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.exception)
+                        }
+                    }
+
+                    db.collection("users").document(id.toString()).get().addOnSuccessListener {
+                        if (it != null) {
+                            // remove followers from other users
+                            val followings = it.data?.get("user_followings") as? List<*>
+                            if (followings != null) {
+                                for (x in followings) {
+                                    db.collection("users").document(x.toString()).update("user_followers", FieldValue.arrayRemove(id.toString()))
+                                }
+                            }
+
+                            //remove current user from other users following
+                            val followers = it.data?.get("user_followers") as? List<*>
+                            if( followers != null) {
+                                for (x in followers) {
+                                    db.collection("users").document(x.toString()).update("user_followings", FieldValue.arrayRemove(id.toString()))
+                                }
+                            }
                         }
                     }
 

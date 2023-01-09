@@ -81,7 +81,8 @@ class ReviewDetailActivity : AppCompatActivity() {
                         var docRef = db.collection("reviews").document(reviewId)
                         docRef.update(
                             "reviewer_title",binding.tvReviewTitle.text.toString(),
-                            "review_description",binding.tvReviewDescription.text.toString()
+                            "review_description",binding.tvReviewDescription.text.toString(),
+                            "insensitive_data", binding.tvReviewTitle.text.toString().lowercase()
                         ).addOnSuccessListener {
                             Toast.makeText(baseContext, getString(R.string.success_update), Toast.LENGTH_SHORT)
                             binding.tvReviewTitle.isEnabled = false

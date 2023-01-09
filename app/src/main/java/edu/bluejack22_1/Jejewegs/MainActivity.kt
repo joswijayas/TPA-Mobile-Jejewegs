@@ -41,6 +41,19 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {

@@ -9,5 +9,6 @@ data class Review(
     var review_rate: String? = null,
     var review_likes: List<String>? = emptyList(),
     var review_comments: List<String>? = emptyList(),
-    var review_id: String? = null
+    var review_id: String? = null,
+    var insensitive_data: String? = null
 )

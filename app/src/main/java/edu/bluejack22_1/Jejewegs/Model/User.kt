@@ -12,4 +12,5 @@ class User {
     var user_reviews:List<String>? = emptyList()
     var user_wishlists:List<String>? = emptyList()
     var user_liked_review:List<String>? = emptyList()
+    var insensitive_data:String? = ""
 }

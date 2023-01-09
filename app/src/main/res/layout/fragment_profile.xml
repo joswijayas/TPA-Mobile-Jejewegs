@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:src="@mipmap/default_profile"
         android:layout_centerHorizontal="true"
-        android:layout_marginVertical="5dp"/>
+        android:layout_marginVertical="5dp" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

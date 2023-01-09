@@ -167,6 +167,7 @@ class CreateReview : Fragment() {
                 newReview.review_brand = reviewBrand
                 newReview.review_description = reviewDescripion
                 newReview.review_rate = reviewRate
+                newReview.insensitive_data = reviewTitle.lowercase()
                 val review = hashMapOf(
                     "reviewer_id" to newReview.reviewer_id,
                     "reviewer_title" to newReview.reviewer_title,
@@ -175,7 +176,8 @@ class CreateReview : Fragment() {
                     "review_description" to newReview.review_description,
                     "review_rate" to newReview.review_rate,
                     "review_likes" to newReview.review_likes,
-                    "review_comments" to newReview.review_comments
+                    "review_comments" to newReview.review_comments,
+                    "insensitive_data" to newReview.insensitive_data
                 )
 
                 FirebaseFirestore.getInstance().collection("reviews").add(review).addOnSuccessListener { docRef ->
