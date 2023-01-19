@@ -129,5 +129,6 @@
     <string name="notif_followed">" telah mengikuti anda"</string>
     <string name="notif_new_review">" telah membuat ulasan baru "</string>
     <string name="success_delete_account">Berhasil hapus akun!</string>
+    <string name="success_register">Berhasil daftar</string>
 
 </resources>
